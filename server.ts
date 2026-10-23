@@ -3,8 +3,11 @@ import path from "path";
 import fs from "fs";
 import dotenv from "dotenv";
 import { GoogleGenAI, Type } from "@google/genai";
+import Groq, { toFile } from "groq-sdk";
 import { createServer as createViteServer } from "vite";
 import { serpapiService } from "./src/services/serpapiService.js";
+import { tinyfishService } from "./src/services/tinyfishService.js";
+import { sqliteService } from "./src/services/sqliteService.js";
 
 dotenv.config();
 
@@ -23,7 +26,8 @@ function getGeminiClient(customKey?: string): GoogleGenAI | null {
     rawKey &&
     rawKey !== "MY_GEMINI_API_KEY" &&
     rawKey !== "YOUR_GEMINI_API_KEY" &&
-    rawKey.trim() !== ""
+    rawKey.trim() !== "" &&
+    !rawKey.startsWith("gsk_") // Don't use Groq key with Gemini SDK
       ? rawKey.trim()
       : null;
   if (!apiKey) {
@@ -34,15 +38,40 @@ function getGeminiClient(customKey?: string): GoogleGenAI | null {
   });
 }
 
-// Gemini API Key Status Check
+// Groq AI client for Ultra-Fast Cloud Inference (qwen3.8-27b & whisper-large-v3)
+function getGroqClient(customKey?: string): Groq | null {
+  const rawKey = customKey || process.env.GROQ_API_KEY || (process.env.GEMINI_API_KEY?.startsWith("gsk_") ? process.env.GEMINI_API_KEY : null);
+  const apiKey =
+    rawKey &&
+    rawKey.startsWith("gsk_") &&
+    rawKey.trim() !== ""
+      ? rawKey.trim()
+      : null;
+  if (!apiKey) {
+    return null;
+  }
+  return new Groq({ apiKey });
+}
+
+// AI Engine Status Check (Gemini, Groq, TinyFish, Hugging Face, SQLite)
 app.get("/api/config/status", (req, res) => {
   const headerKey = req.headers["x-gemini-api-key"] as string;
   const envKey = process.env.GEMINI_API_KEY;
   const key = (headerKey && headerKey.trim() !== "" ? headerKey : envKey) || "";
-  const hasKey = Boolean(key && key !== "MY_GEMINI_API_KEY" && key !== "YOUR_GEMINI_API_KEY" && key.trim() !== "");
+  const hasGeminiKey = Boolean(key && key !== "MY_GEMINI_API_KEY" && key !== "YOUR_GEMINI_API_KEY" && !key.startsWith("gsk_") && key.trim() !== "");
+  const hasGroqKey = Boolean(getGroqClient());
+  const hasTinyFishKey = tinyfishService.isConfigured();
+  const hasHfToken = Boolean(process.env.HF_TOKEN && process.env.HF_TOKEN.startsWith("hf_"));
+  const hasSqlite = Boolean(sqliteService.getDb());
+
   res.json({
-    hasGeminiKey: hasKey,
-    model: "gemini-2.5-flash",
+    hasGeminiKey: hasGeminiKey || hasGroqKey,
+    hasGroqKey,
+    hasTinyFishKey,
+    hasSerpApiKey: serpapiService.isConfigured(),
+    hasHfToken,
+    hasSqlite,
+    model: hasGroqKey ? "Groq Cloud (qwen/qwen3.8-27b & Whisper-large-v3)" : "gemini-2.5-flash",
   });
 });
 
@@ -122,14 +151,21 @@ app.get("/api/health", (req, res) => {
   const headerKey = req.headers["x-gemini-api-key"] as string;
   const envKey = process.env.GEMINI_API_KEY;
   const activeKey = (headerKey && headerKey.trim() !== "" ? headerKey : envKey) || "";
-  const hasGeminiKey = Boolean(activeKey && activeKey !== "MY_GEMINI_API_KEY" && activeKey !== "YOUR_GEMINI_API_KEY" && activeKey.trim() !== "");
+  const hasGeminiKey = Boolean(activeKey && activeKey !== "MY_GEMINI_API_KEY" && activeKey !== "YOUR_GEMINI_API_KEY" && !activeKey.startsWith("gsk_") && activeKey.trim() !== "");
+  const hasGroqKey = Boolean(getGroqClient());
+  const hasTinyFishKey = tinyfishService.isConfigured();
+  const hasHfToken = Boolean(process.env.HF_TOKEN && process.env.HF_TOKEN.startsWith("hf_"));
+  const hasSqlite = Boolean(sqliteService.getDb());
 
   res.json({
     status: "ok",
-    hasGeminiKey,
+    hasGeminiKey: hasGeminiKey || hasGroqKey,
+    hasGroqKey,
+    hasTinyFishKey,
     hasSerpApiKey: serpapiService.isConfigured(),
-    hasRemoveBgKey: Boolean(process.env.REMOVE_BG_API_KEY || "seWSgxfbpVS4g9v5mEuKU6xV"),
-    hasHfToken: Boolean(process.env.HF_TOKEN),
+    hasRemoveBgKey: Boolean(process.env.REMOVE_BG_API_KEY),
+    hasHfToken,
+    hasSqlite,
     hasSupabaseUrl: Boolean(process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL),
     timestamp: new Date().toISOString(),
   });
@@ -222,9 +258,24 @@ app.post("/api/analytics/track", (req, res) => {
     };
 
     analyticsEventsStore.push(newRecord);
+    sqliteService.logEvent(newRecord);
     return res.json({ success: true, eventId: newRecord.id });
   } catch (err: any) {
     return res.status(500).json({ error: err?.message || "Failed to record event" });
+  }
+});
+
+// Sync product to local SQLite database
+app.post("/api/products/sync", (req, res) => {
+  try {
+    const { product } = req.body;
+    if (product) {
+      sqliteService.insertProduct(product);
+      return res.json({ success: true, message: "Product persisted to local SQLite database" });
+    }
+    return res.status(400).json({ success: false, error: "Product payload missing" });
+  } catch (err: any) {
+    return res.status(500).json({ success: false, error: err?.message });
   }
 });
 
@@ -484,10 +535,101 @@ app.post("/api/ai/voice-extract", async (req, res) => {
     const clientKey = (req.headers["x-gemini-api-key"] as string) || req.body?.geminiApiKey;
     const ai = getGeminiClient(clientKey);
 
-    // If no Gemini client is available, run our intelligent multilingual parser
+    const groq = getGroqClient();
+
+    // If no Gemini client is available, leverage Groq Cloud (Whisper + Qwen)
     if (!ai) {
+      let activeTranscript = inputText;
+
+      // 1. If audioBase64 provided, transcribe with ultra-fast Groq Whisper
+      if (groq && audioBase64 && (!activeTranscript || activeTranscript.length < 5)) {
+        try {
+          const cleanMimeType = (mimeType || "audio/webm").split(";")[0].trim();
+          const audioBuffer = Buffer.from(audioBase64, "base64");
+          const file = await toFile(audioBuffer, "artisan_audio.webm", { type: cleanMimeType || "audio/webm" });
+          const whisperRes = await groq.audio.transcriptions.create({
+            file,
+            model: "whisper-large-v3",
+          });
+          if (whisperRes.text && whisperRes.text.trim()) {
+            activeTranscript = whisperRes.text.trim();
+          }
+        } catch (wErr: any) {
+          console.warn("Notice: Groq Whisper transcription fallback:", wErr?.message);
+        }
+      }
+
+      // 2. Extract structured product data using Groq Qwen
+      if (groq && activeTranscript && activeTranscript.trim()) {
+        try {
+          const groqCompletion = await groq.chat.completions.create({
+            model: "qwen/qwen3.8-27b",
+            response_format: { type: "json_object" },
+            messages: [
+              {
+                role: "system",
+                content: `You are an expert bilingual Indian artisan marketplace assistant for KalaSetu.
+Extract structured product data from artisan regional audio/text input.
+Output valid JSON strictly with this schema:
+{
+  "detectedLanguage": "Hindi" | "English" | "Gujarati" | "Bengali" | "Tamil" | "Marathi",
+  "transcript": "Exact original transcript",
+  "translatedEnglish": "Fluent English commercial product description (2-3 sentences)",
+  "translatedHindi": "हिंदी में विवरण (Devanagari script)",
+  "productName": "English title under 55 chars",
+  "productNameHindi": "हिंदी में उत्पाद नाम",
+  "shortTitle": "Short title under 35 chars",
+  "category": "Pottery & Ceramics" | "Traditional Paintings & Folk Art" | "Handloom & Textiles" | "Woodwork & Carvings" | "Brass & Metal Craft" | "Leather Accessories" | "Jewelry & Adornments",
+  "craftType": "Specific artisan craft",
+  "material": "Authentic materials used",
+  "colour": "Dominant colors",
+  "productionTime": "Estimated production time",
+  "enteredRetailPrice": number or null,
+  "enteredB2BPrice": number or null,
+  "artisanStory": "Short cultural heritage craft story"
+}`,
+              },
+              {
+                role: "user",
+                content: `Language Hint: ${languageHint || "Hindi/Regional"}\nArtisan Input: "${activeTranscript}"`,
+              },
+            ],
+          });
+
+          const rawContent = groqCompletion.choices[0]?.message?.content;
+          if (rawContent) {
+            const parsed = JSON.parse(rawContent);
+            return res.json({
+              success: true,
+              isGroq: true,
+              detectedLanguage: parsed.detectedLanguage || "Hindi",
+              transcript: parsed.transcript || activeTranscript,
+              translatedEnglish: parsed.translatedEnglish,
+              translatedHindi: parsed.translatedHindi,
+              data: parsed,
+              extracted: {
+                transcript: parsed.transcript || activeTranscript,
+                product_title: parsed.productName,
+                title_hindi: parsed.productNameHindi,
+                description: parsed.translatedEnglish,
+                description_hindi: parsed.translatedHindi,
+                material: parsed.material,
+                craft_type: parsed.craftType,
+                category: parsed.category,
+                production_time: parsed.productionTime,
+                estimated_price: parsed.enteredRetailPrice,
+                b2b_price: parsed.enteredB2BPrice,
+              },
+            });
+          }
+        } catch (gErr: any) {
+          console.warn("Notice: Groq Qwen extraction fallback:", gErr?.message);
+        }
+      }
+
+      // 3. Fallback parser if external calls are not available
       const parsedData = parseVoiceTranscriptText(
-        inputText || "नमस्ते, मैंने टेराकोटा मिट्टी का सुंदर दीया और कुल्हड़ बनाया है। खुदरा मूल्य ₹350 और थोक ₹220 है।",
+        activeTranscript || "नमस्ते, मैंने टेराकोटा मिट्टी का सुंदर दीया और कुल्हड़ बनाया है। खुदरा मूल्य ₹350 और थोक ₹220 है।",
         languageHint
       );
       return res.json({
@@ -664,8 +806,34 @@ app.post("/api/ai/hf-whisper", async (req, res) => {
 
     const cleanMimeType = (mimeType || "audio/webm").split(";")[0].trim();
 
-    // Check if Hugging Face token is provided for direct Whisper Inference
-    if (hfToken && hfToken.trim() !== "" && hfToken !== "YOUR_NEW_HUGGINGFACE_TOKEN") {
+    // 1. Primary: Ultra-Fast Groq Whisper Cloud (whisper-large-v3, <0.5s)
+    const groq = getGroqClient();
+    if (groq) {
+      try {
+        const file = await toFile(audioBuffer, "artisan_voice.webm", { type: cleanMimeType || "audio/webm" });
+        const groqWhisperRes = await groq.audio.transcriptions.create({
+          file,
+          model: "whisper-large-v3",
+        });
+        if (groqWhisperRes.text && groqWhisperRes.text.trim()) {
+          const transcript = groqWhisperRes.text.trim();
+          const hasDevanagari = /[\u0900-\u097F]/.test(transcript);
+          return res.json({
+            success: true,
+            transcript,
+            detectedLanguage: hasDevanagari ? "Hindi" : "English / Hinglish",
+            normalizedText: transcript,
+            isGroqWhisper: true,
+            isHfWhisper: false,
+          });
+        }
+      } catch (gErr: any) {
+        console.warn("Groq Whisper transcription notice:", gErr?.message);
+      }
+    }
+
+    // 2. Secondary: Hugging Face token for direct Whisper Inference
+    if (hfToken && hfToken.trim() !== "" && hfToken !== "YOUR_NEW_HUGGINGFACE_TOKEN" && hfToken.startsWith("hf_")) {
       const endpoints = [
         "https://router.huggingface.co/hf-inference/models/openai/whisper-large-v3-turbo",
         "https://api-inference.huggingface.co/models/openai/whisper-large-v3-turbo",
@@ -1641,11 +1809,42 @@ app.post(["/api/ai/hf-segmentation", "/api/ai/remove-background"], async (req, r
       }
     }
 
-    // 2. Secondary: Hugging Face SegFormer if HF token is present
+    // 2. Secondary: Hugging Face RMBG-2.0 & SegFormer if HF token is present
     const hfToken = process.env.HF_TOKEN;
     const imageBuffer = Buffer.from(base64String, "base64");
 
-    if (hfToken && hfToken.trim() !== "" && hfToken !== "YOUR_NEW_HUGGINGFACE_TOKEN") {
+    if (hfToken && hfToken.trim() !== "" && hfToken.startsWith("hf_")) {
+      // Try RMBG-2.0 state-of-the-art background cutout
+      try {
+        const rmbgRes = await fetch("https://router.huggingface.co/hf-inference/models/briaai/RMBG-2.0", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${hfToken.trim()}`,
+            "Content-Type": "image/jpeg",
+          },
+          body: imageBuffer,
+        });
+        if (rmbgRes.ok) {
+          const contentType = rmbgRes.headers.get("content-type") || "";
+          if (contentType.includes("image")) {
+            const arrayBuf = await rmbgRes.arrayBuffer();
+            const b64 = Buffer.from(arrayBuf).toString("base64");
+            return res.json({
+              success: true,
+              isolatedImageUrl: `data:image/png;base64,${b64}`,
+              confidence: "High",
+              provider: "Hugging Face RMBG-2.0",
+              isHfRmbg: true,
+              isHfSegFormer: false,
+              isRemoveBg: false,
+              message: "Studio-grade subject cutout generated with Hugging Face RMBG-2.0.",
+            });
+          }
+        }
+      } catch (rmbgErr: any) {
+        console.warn("RMBG-2.0 notice:", rmbgErr?.message);
+      }
+
       const endpoints = [
         "https://router.huggingface.co/hf-inference/models/nvidia/segformer-b0-finetuned-ade-512-512",
         "https://api-inference.huggingface.co/models/nvidia/segformer-b0-finetuned-ade-512-512",
@@ -2442,6 +2641,62 @@ Generate an optimized marketplace listing strictly as JSON:
         }
       } catch (geminiErr: any) {
         console.warn("Notice in market recommendation Gemini synthesis fallback:", geminiErr?.message);
+      }
+    } else if (getGroqClient()) {
+      try {
+        const groq = getGroqClient()!;
+        const topCompetitorSummaries = marketData.topProducts.slice(0, 5).map(p => 
+          `- ${p.title} (${p.source}): ₹${p.price || 'N/A'}, Rating: ${p.rating || 'N/A'}`
+        ).join("\n");
+
+        const prompt = `You are an elite e-commerce listing and market pricing strategist for authentic Indian handicrafts on KalaSetu.
+You are provided with real-time market research observations:
+
+ARTISAN PRODUCT DETAILS:
+- Name: ${productName}
+- Craft: ${craft}
+- Category: ${category}
+- Material: ${material}
+- Spoken Voice Context: ${voiceTranscript || "None"}
+
+OBSERVED MARKET INTELLIGENCE:
+- Top Market Competitors:
+${topCompetitorSummaries || "No direct competitors disclosed in current search."}
+- Market Price Range: ₹${marketData.priceAnalysis.min || "N/A"} - ₹${marketData.priceAnalysis.max || "N/A"} (Median: ₹${marketData.priceAnalysis.median || "N/A"})
+- Estimated Demand Score: ${marketData.demand.score}/100 (${marketData.demand.level})
+- Competition Level: ${marketData.competition.level}
+
+CRITICAL ANTI-HALLUCINATION RULES:
+1. Distinguish OBSERVED DATA from AI INFERENCE.
+2. Recommend a price strictly consistent with the observed market range and artisan fair wage (near ₹${recommendedPrice}).
+
+Generate an optimized marketplace listing strictly as JSON:
+{
+  "title": "Natural, high-CTR, SEO-rich product title (under 75 chars)",
+  "description": "Engaging buyer description emphasizing craftsmanship, authentic materials, and intended use",
+  "seoKeywords": ["3-5 high-converting primary & long-tail search keywords"],
+  "tags": ["4-6 concise marketplace search tags"],
+  "recommendedPrice": ${recommendedPrice},
+  "explanation": "Clear 1-2 sentence rationale referencing the observed market price range"
+}`;
+
+        const groqRes = await groq.chat.completions.create({
+          model: "qwen/qwen3.8-27b",
+          response_format: { type: "json_object" },
+          messages: [{ role: "user", content: prompt }],
+        });
+
+        const groqText = groqRes.choices[0]?.message?.content;
+        if (groqText) {
+          const parsed = JSON.parse(groqText);
+          recommendation = {
+            ...recommendation,
+            ...parsed,
+            recommendedPrice: parsed.recommendedPrice || recommendedPrice,
+          };
+        }
+      } catch (gErr: any) {
+        console.warn("Notice in market recommendation Groq synthesis fallback:", gErr?.message);
       }
     }
 

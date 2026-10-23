@@ -35,6 +35,7 @@ import { Footer } from './components/Footer';
 import { AuthScreen } from './components/AuthScreen';
 import { Brand3DMotionIntro } from './components/Brand3DMotionIntro';
 import { SupabaseModal } from './components/SupabaseModal';
+import { OnboardingTour } from './components/OnboardingTour';
 import {
   Sparkles,
   ArrowRight,
@@ -46,6 +47,7 @@ import {
   Phone,
   BookOpen,
   MapPin,
+  Compass,
 } from 'lucide-react';
 
 export default function App() {
@@ -79,6 +81,16 @@ export default function App() {
   const [isSupabaseModalOpen, setIsSupabaseModalOpen] = useState<boolean>(false);
   const [wishlistIds, setWishlistIds] = useState<string[]>(['prod_1', 'prod_3']);
   const [cartItems, setCartItems] = useState<{ product: Product; quantity: number }[]>([]);
+
+  // Interactive 9-Step Onboarding Walkthrough Tour
+  const [isTourOpen, setIsTourOpen] = useState<boolean>(() => {
+    try {
+      const completed = localStorage.getItem('kalasetu_tour_completed');
+      return completed !== 'true';
+    } catch (e) {
+      return false;
+    }
+  });
 
   // Sync with dataStore on mount & subscriptions
   useEffect(() => {
@@ -194,7 +206,7 @@ export default function App() {
 
   // STAGE 3: Website Home & Full Marketplace Experience
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF7F2] text-[#2D241E] font-sans antialiased selection:bg-[#C85A32] selection:text-white">
+    <div className="min-h-screen flex flex-col bg-[#FAF7F0] text-[#1C1917] font-sans antialiased selection:bg-[#B89B5E] selection:text-white">
       {/* Top Announcement Bar */}
       <AnnouncementBar
         onRequestCallback={() => setIsCallbackModalOpen(true)}
@@ -223,6 +235,11 @@ export default function App() {
         onOpenSignPage={() => setAppStage('auth')}
         onReplay3DIntro={() => setAppStage('motion_intro')}
         onOpenSupabaseHub={() => setIsSupabaseModalOpen(true)}
+        onStartTour={() => {
+          setActiveNav('home');
+          setIsTourOpen(true);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
       />
 
       {/* Main App Content Viewport */}
@@ -262,18 +279,18 @@ export default function App() {
             />
 
             {/* Featured Handcrafted Masterworks */}
-            <section className="py-14 bg-white border-b border-[#EFE9DE]">
+            <section className="py-14 bg-white border-b border-[#E7E0D3]">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
                   <div>
-                    <div className="flex items-center gap-2 text-xs font-bold text-[#C85A32] uppercase tracking-wider">
-                      <Sparkles className="w-3.5 h-3.5 text-[#E27D26]" />
+                    <div className="flex items-center gap-2 text-xs font-bold text-[#B89B5E] uppercase tracking-wider">
+                      <Sparkles className="w-3.5 h-3.5 text-[#B89B5E]" />
                       <span>Certified Master Crafts</span>
                     </div>
-                    <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#2D241E] mt-1">
+                    <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#1C1917] mt-1">
                       Featured Artisanal Creations
                     </h2>
-                    <p className="text-sm text-[#5A3924] mt-1">
+                    <p className="text-sm text-[#6B6258] mt-1">
                       Every piece is signed and dispatched directly from verified master artisan kilns and looms.
                     </p>
                   </div>
@@ -283,7 +300,7 @@ export default function App() {
                       setActiveNav('shop');
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-[#C85A32] hover:text-[#B04924] transition-colors cursor-pointer self-start sm:self-auto"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-[#B89B5E] hover:text-[#9F8249] transition-colors cursor-pointer self-start sm:self-auto"
                   >
                     <span>Explore Full Marketplace</span>
                     <ArrowRight className="w-4 h-4" />
@@ -291,7 +308,7 @@ export default function App() {
                 </div>
 
                 {/* Product Cards Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div data-tour="featured-products" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                   {products.slice(0, 8).map((prod) => (
                     <ProductCard
                       key={prod.id}
@@ -315,18 +332,18 @@ export default function App() {
             />
 
             {/* Meet the Master Artisans */}
-            <section className="py-14 bg-[#FAF7F2] border-b border-[#EFE9DE]">
+            <section className="py-14 bg-[#FAF7F0] border-b border-[#E7E0D3]">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
                   <div>
-                    <div className="flex items-center gap-2 text-xs font-bold text-[#C85A32] uppercase tracking-wider">
-                      <ShieldCheck className="w-3.5 h-3.5 text-[#2E4B3D]" />
+                    <div className="flex items-center gap-2 text-xs font-bold text-[#B89B5E] uppercase tracking-wider">
+                      <ShieldCheck className="w-3.5 h-3.5 text-[#6B6258]" />
                       <span>Generational Custodians</span>
                     </div>
-                    <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#2D241E] mt-1">
+                    <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#1C1917] mt-1">
                       Meet India's Master Artisans
                     </h2>
-                    <p className="text-sm text-[#5A3924] mt-1">
+                    <p className="text-sm text-[#6B6258] mt-1">
                       Discover the craftspeople behind each piece, their familial heritage, and traditional methods.
                     </p>
                   </div>
@@ -336,7 +353,7 @@ export default function App() {
                       setActiveNav('artisans');
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-[#C85A32] hover:text-[#B04924] transition-colors cursor-pointer self-start sm:self-auto"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-[#B89B5E] hover:text-[#9F8249] transition-colors cursor-pointer self-start sm:self-auto"
                   >
                     <span>View All Artisans</span>
                     <ArrowRight className="w-4 h-4" />
@@ -347,16 +364,16 @@ export default function App() {
                   {artisans.map((art) => (
                     <div
                       key={art.id}
-                      className="rounded-3xl bg-white border border-[#DFD5C4] overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
+                      className="rounded-3xl bg-white border border-[#E7E0D3] overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
                     >
                       <div>
-                        <div className="relative h-48 bg-[#3E2415] overflow-hidden">
+                        <div className="relative h-48 bg-[#4A3B1E] overflow-hidden">
                           <img
                             src={art.banner_image_url}
                             alt={art.craft_name}
                             className="w-full h-full object-cover opacity-60"
                           />
-                          <span className="absolute top-3 right-3 px-2.5 py-0.5 rounded-full bg-white/90 backdrop-blur-xs text-[#3E2415] text-[10px] font-bold">
+                          <span className="absolute top-3 right-3 px-2.5 py-0.5 rounded-full bg-white/90 backdrop-blur-xs text-[#4A3B1E] text-[10px] font-bold">
                             {art.years_of_experience} yrs mastery
                           </span>
                         </div>
@@ -369,33 +386,33 @@ export default function App() {
                           />
 
                           <div>
-                            <span className="text-[10px] font-bold uppercase tracking-wider text-[#C85A32]">
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-[#B89B5E]">
                               {art.craft_name}
                             </span>
-                            <h3 className="font-serif font-bold text-lg text-[#2D241E]">
+                            <h3 className="font-serif font-bold text-lg text-[#1C1917]">
                               {art.name}
                             </h3>
-                            <p className="text-xs text-[#5A3924] flex items-center gap-1 mt-0.5">
-                              <MapPin className="w-3.5 h-3.5 text-[#C85A32]" />
+                            <p className="text-xs text-[#6B6258] flex items-center gap-1 mt-0.5">
+                              <MapPin className="w-3.5 h-3.5 text-[#B89B5E]" />
                               <span>{art.region}, {art.state}</span>
                             </p>
                           </div>
 
-                          <p className="text-xs text-[#5A3924] line-clamp-3 leading-relaxed">
+                          <p className="text-xs text-[#6B6258] line-clamp-3 leading-relaxed">
                             {art.story}
                           </p>
                         </div>
                       </div>
 
-                      <div className="p-6 pt-0 flex items-center justify-between border-t border-[#F4EFE6] mt-2">
-                        <span className="text-xs font-bold text-[#2E4B3D] flex items-center gap-1">
-                          <Star className="w-3.5 h-3.5 fill-[#E27D26] text-[#E27D26]" />
+                      <div className="p-6 pt-0 flex items-center justify-between border-t border-[#E7E0D3] mt-2">
+                        <span className="text-xs font-bold text-[#6B6258] flex items-center gap-1">
+                          <Star className="w-3.5 h-3.5 fill-[#B89B5E] text-[#B89B5E]" />
                           <span>{art.rating || 4.9} ({art.total_sales || 200}+ orders)</span>
                         </span>
 
                         <button
                           onClick={() => setSelectedArtisan(art)}
-                          className="px-3.5 py-1.5 rounded-xl bg-[#FAF7F2] hover:bg-[#C85A32] text-[#3E2415] hover:text-white border border-[#DFD5C4] hover:border-[#C85A32] text-xs font-bold transition-all cursor-pointer"
+                          className="px-3.5 py-1.5 rounded-xl bg-[#FAF7F0] hover:bg-[#B89B5E] text-[#4A3B1E] hover:text-white border border-[#E7E0D3] hover:border-[#B89B5E] text-xs font-bold transition-all cursor-pointer"
                         >
                           View Profile & Story →
                         </button>
@@ -415,15 +432,15 @@ export default function App() {
             />
 
             {/* Fair-Trade Mission & Craft Custodianship Statement */}
-            <section className="py-16 bg-[#2D241E] text-white">
+            <section className="py-16 bg-[#1C1917] text-white">
               <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
-                <span className="text-xs font-bold uppercase tracking-widest text-[#E27D26] px-3 py-1 rounded-full bg-[#E27D26]/15 border border-[#E27D26]/30">
+                <span className="text-xs font-bold uppercase tracking-widest text-[#B89B5E] px-3 py-1 rounded-full bg-[#B89B5E]/15 border border-[#B89B5E]/30">
                   OUR NATIONAL COMMITMENT
                 </span>
                 <h2 className="font-serif text-3xl sm:text-4xl font-bold leading-tight">
                   “Don't just buy the product. Discover the artisan, craft, region and story behind it.”
                 </h2>
-                <p className="text-sm sm:text-base text-[#DFD5C4] max-w-2xl mx-auto leading-relaxed">
+                <p className="text-sm sm:text-base text-[#E7E0D3] max-w-2xl mx-auto leading-relaxed">
                   KalaSetu bridges Indian master craftspeople directly to conscious retail buyers and bulk corporate enterprises—eliminating exploitation, preserving ancient hand techniques, and enabling listing with zero digital literacy through Voice AI.
                 </p>
                 <div className="pt-2 flex flex-wrap justify-center gap-4">
@@ -432,7 +449,7 @@ export default function App() {
                       setActiveNav('about');
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
-                    className="px-6 py-3 rounded-full bg-[#C85A32] hover:bg-[#B04924] text-white font-bold text-xs cursor-pointer shadow-md transition-all"
+                    className="px-6 py-3 rounded-full bg-[#B89B5E] hover:bg-[#9F8249] text-white font-bold text-xs cursor-pointer shadow-md transition-all"
                   >
                     Read Our Artisan Charter
                   </button>
@@ -440,7 +457,7 @@ export default function App() {
                     onClick={() => setIsCallbackModalOpen(true)}
                     className="px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold text-xs cursor-pointer border border-white/20 transition-all flex items-center gap-2"
                   >
-                    <Phone className="w-3.5 h-3.5 text-[#E27D26]" />
+                    <Phone className="w-3.5 h-3.5 text-[#B89B5E]" />
                     <span>Artisan Call Helpline</span>
                   </button>
                 </div>
@@ -473,11 +490,11 @@ export default function App() {
         {/* ======================================================== */}
         {activeNav === 'artisans' && (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
-            <div className="pb-4 border-b border-[#EFE9DE]">
-              <h1 className="font-serif text-3xl font-bold text-[#2D241E]">
+            <div className="pb-4 border-b border-[#E7E0D3]">
+              <h1 className="font-serif text-3xl font-bold text-[#1C1917]">
                 Certified Indian Master Craftspersons
               </h1>
-              <p className="text-xs text-[#5A3924] mt-1">
+              <p className="text-xs text-[#6B6258] mt-1">
                 Explore generations of ancestral lineage across India's traditional craft clusters.
               </p>
             </div>
@@ -486,15 +503,15 @@ export default function App() {
               {artisans.map((art) => (
                 <div
                   key={art.id}
-                  className="rounded-3xl bg-white border border-[#DFD5C4] overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
+                  className="rounded-3xl bg-white border border-[#E7E0D3] overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
                 >
-                  <div className="relative h-48 bg-[#3E2415]">
+                  <div className="relative h-48 bg-[#4A3B1E]">
                     <img
                       src={art.banner_image_url}
                       alt={art.craft_name}
                       className="w-full h-full object-cover opacity-60"
                     />
-                    <span className="absolute top-3 right-3 px-2.5 py-0.5 rounded-full bg-white/90 text-[#3E2415] text-[10px] font-bold">
+                    <span className="absolute top-3 right-3 px-2.5 py-0.5 rounded-full bg-white/90 text-[#4A3B1E] text-[10px] font-bold">
                       {art.years_of_experience} yrs experience
                     </span>
                   </div>
@@ -507,30 +524,30 @@ export default function App() {
                     />
 
                     <div>
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#C85A32]">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#B89B5E]">
                         {art.craft_name}
                       </span>
-                      <h3 className="font-serif font-bold text-lg text-[#2D241E]">
+                      <h3 className="font-serif font-bold text-lg text-[#1C1917]">
                         {art.name}
                       </h3>
-                      <p className="text-xs text-[#5A3924] flex items-center gap-1 mt-0.5">
-                        <MapPin className="w-3.5 h-3.5 text-[#C85A32]" />
+                      <p className="text-xs text-[#6B6258] flex items-center gap-1 mt-0.5">
+                        <MapPin className="w-3.5 h-3.5 text-[#B89B5E]" />
                         <span>{art.region}, {art.state}</span>
                       </p>
                     </div>
 
-                    <p className="text-xs text-[#5A3924] line-clamp-3 leading-relaxed">
+                    <p className="text-xs text-[#6B6258] line-clamp-3 leading-relaxed">
                       {art.story}
                     </p>
                   </div>
 
-                  <div className="p-6 pt-0 flex items-center justify-between border-t border-[#F4EFE6] mt-2">
-                    <span className="text-xs font-bold text-[#2E4B3D]">
+                  <div className="p-6 pt-0 flex items-center justify-between border-t border-[#E7E0D3] mt-2">
+                    <span className="text-xs font-bold text-[#6B6258]">
                       ★ {art.rating} ({art.total_sales || 300}+ orders)
                     </span>
                     <button
                       onClick={() => setSelectedArtisan(art)}
-                      className="px-4 py-2 rounded-xl bg-[#FAF7F2] hover:bg-[#C85A32] text-[#3E2415] hover:text-white border border-[#DFD5C4] hover:border-[#C85A32] text-xs font-bold transition-all cursor-pointer"
+                      className="px-4 py-2 rounded-xl bg-[#FAF7F0] hover:bg-[#B89B5E] text-[#4A3B1E] hover:text-white border border-[#E7E0D3] hover:border-[#B89B5E] text-xs font-bold transition-all cursor-pointer"
                     >
                       View Profile & Story →
                     </button>
@@ -570,13 +587,13 @@ export default function App() {
         {activeNav === 'stories' && (
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
             <div className="text-center space-y-2">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#C85A32]">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#B89B5E]">
                 Oral Traditions & Living Craftsmanship
               </span>
-              <h1 className="font-serif text-3xl sm:text-4xl font-bold text-[#2D241E]">
+              <h1 className="font-serif text-3xl sm:text-4xl font-bold text-[#1C1917]">
                 Artisan Chronicles of India
               </h1>
-              <p className="text-sm text-[#5A3924] max-w-xl mx-auto">
+              <p className="text-sm text-[#6B6258] max-w-xl mx-auto">
                 Behind every weave, brushstroke, and kiln firing lies centuries of sacred oral traditions.
               </p>
             </div>
@@ -585,7 +602,7 @@ export default function App() {
               {artisans.map((art) => (
                 <div
                   key={art.id}
-                  className="p-6 rounded-3xl bg-white border border-[#DFD5C4] shadow-sm flex flex-col md:flex-row gap-6 items-start"
+                  className="p-6 rounded-3xl bg-white border border-[#E7E0D3] shadow-sm flex flex-col md:flex-row gap-6 items-start"
                 >
                   <img
                     src={art.banner_image_url}
@@ -593,18 +610,18 @@ export default function App() {
                     className="w-full md:w-64 h-48 rounded-2xl object-cover shrink-0"
                   />
                   <div className="space-y-3">
-                    <span className="px-2.5 py-0.5 rounded-full bg-[#E27D26]/15 text-[#C85A32] text-xs font-bold uppercase">
+                    <span className="px-2.5 py-0.5 rounded-full bg-[#B89B5E]/15 text-[#B89B5E] text-xs font-bold uppercase">
                       {art.craft_name} • {art.region}
                     </span>
-                    <h3 className="font-serif font-bold text-xl text-[#2D241E]">
+                    <h3 className="font-serif font-bold text-xl text-[#1C1917]">
                       The Living Lineage of {art.name}
                     </h3>
-                    <p className="text-xs text-[#5A3924] leading-relaxed">
+                    <p className="text-xs text-[#6B6258] leading-relaxed">
                       {art.story}
                     </p>
                     <button
                       onClick={() => setSelectedArtisan(art)}
-                      className="text-xs font-bold text-[#C85A32] hover:underline cursor-pointer flex items-center gap-1"
+                      className="text-xs font-bold text-[#B89B5E] hover:underline cursor-pointer flex items-center gap-1"
                     >
                       <span>Explore {art.name}'s 5-Stage Craft Process →</span>
                     </button>
@@ -621,19 +638,19 @@ export default function App() {
         {activeNav === 'about' && (
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
             <div className="text-center space-y-2">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#C85A32]">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#B89B5E]">
                 Rooted in Heritage
               </span>
-              <h1 className="font-serif text-3xl sm:text-4xl font-bold text-[#2D241E]">
+              <h1 className="font-serif text-3xl sm:text-4xl font-bold text-[#1C1917]">
                 About KalaSetu
               </h1>
-              <p className="text-sm text-[#5A3924] max-w-xl mx-auto">
+              <p className="text-sm text-[#6B6258] max-w-xl mx-auto">
                 Building an authentic bridge between India's traditional artisan clusters and global conscious patrons.
               </p>
             </div>
 
-            <div className="p-8 rounded-3xl bg-white border border-[#DFD5C4] shadow-sm space-y-4 text-xs sm:text-sm text-[#5A3924] leading-relaxed">
-              <h3 className="font-serif font-bold text-lg text-[#2D241E]">
+            <div className="p-8 rounded-3xl bg-white border border-[#E7E0D3] shadow-sm space-y-4 text-xs sm:text-sm text-[#6B6258] leading-relaxed">
+              <h3 className="font-serif font-bold text-lg text-[#1C1917]">
                 The KalaSetu Promise
               </h3>
               <p>
@@ -642,22 +659,22 @@ export default function App() {
               <p>
                 <strong>KalaSetu</strong> changes this equation fundamentally. We provide an end-to-end fair trade marketplace where verified craftspeople sell directly to retail customers and receive structured B2B wholesale quotations from boutique hotels, corporate gifting firms, and luxury retailers.
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-[#F4EFE6]">
-                <div className="p-4 rounded-xl bg-[#FAF7F2] border border-[#DFD5C4]">
-                  <h4 className="font-serif font-bold text-sm text-[#2D241E]">1. Voice-to-Catalog AI</h4>
-                  <p className="text-xs text-[#8C7A6B] mt-1">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-[#E7E0D3]">
+                <div className="p-4 rounded-xl bg-[#FAF7F0] border border-[#E7E0D3]">
+                  <h4 className="font-serif font-bold text-sm text-[#1C1917]">1. Voice-to-Catalog AI</h4>
+                  <p className="text-xs text-[#9A9089] mt-1">
                     Artisans describe their work in Hindi or regional languages; our AI creates professional e-commerce listings with zero typing.
                   </p>
                 </div>
-                <div className="p-4 rounded-xl bg-[#FAF7F2] border border-[#DFD5C4]">
-                  <h4 className="font-serif font-bold text-sm text-[#2D241E]">2. B2B Wholesale Hub</h4>
-                  <p className="text-xs text-[#8C7A6B] mt-1">
+                <div className="p-4 rounded-xl bg-[#FAF7F0] border border-[#E7E0D3]">
+                  <h4 className="font-serif font-bold text-sm text-[#1C1917]">2. B2B Wholesale Hub</h4>
+                  <p className="text-xs text-[#9A9089] mt-1">
                     Direct bulk inquiries with real-time price negotiation and formal structured quotations.
                   </p>
                 </div>
-                <div className="p-4 rounded-xl bg-[#FAF7F2] border border-[#DFD5C4]">
-                  <h4 className="font-serif font-bold text-sm text-[#2D241E]">3. Phone Call Onboarding</h4>
-                  <p className="text-xs text-[#8C7A6B] mt-1">
+                <div className="p-4 rounded-xl bg-[#FAF7F0] border border-[#E7E0D3]">
+                  <h4 className="font-serif font-bold text-sm text-[#1C1917]">3. Phone Call Onboarding</h4>
+                  <p className="text-xs text-[#9A9089] mt-1">
                     Support operators assist non-digital rural artisans over a direct phone call.
                   </p>
                 </div>
@@ -672,49 +689,72 @@ export default function App() {
         {activeNav === 'help' && (
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
             <div className="text-center space-y-2">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#2E4B3D]">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#6B6258]">
                 Assistance & Support
               </span>
-              <h1 className="font-serif text-3xl font-bold text-[#2D241E]">
+              <h1 className="font-serif text-3xl font-bold text-[#1C1917]">
                 How May We Assist You?
               </h1>
-              <p className="text-sm text-[#5A3924]">
+              <p className="text-sm text-[#6B6258]">
                 Dedicated support for both artisan workshops and conscious buyers.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="p-6 rounded-3xl bg-white border border-[#DFD5C4] shadow-sm space-y-3">
-                <div className="w-10 h-10 rounded-xl bg-[#C85A32]/10 text-[#C85A32] flex items-center justify-center">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="p-6 rounded-3xl bg-white border border-[#E7E0D3] shadow-sm space-y-3">
+                <div className="w-10 h-10 rounded-xl bg-[#B89B5E]/10 text-[#B89B5E] flex items-center justify-center">
+                  <Compass className="w-5 h-5 text-[#B89B5E]" />
+                </div>
+                <h3 className="font-serif font-bold text-base text-[#1C1917]">
+                  Interactive Website Tour
+                </h3>
+                <p className="text-xs text-[#6B6258] leading-relaxed">
+                  Take the concise 9-step guided walkthrough to explore search tools, AI voice discovery, artisan profiles, and wholesale purchasing.
+                </p>
+                <button
+                  onClick={() => {
+                    setActiveNav('home');
+                    setIsTourOpen(true);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                  className="mt-2 px-5 py-2.5 rounded-xl bg-[#FAF7F0] hover:bg-[#E7E0D3] text-[#4A3B1E] border border-[#E7E0D3] font-bold text-xs cursor-pointer shadow-xs transition-colors flex items-center gap-1.5"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-[#B89B5E]" />
+                  <span>Start Guided Walkthrough →</span>
+                </button>
+              </div>
+
+              <div className="p-6 rounded-3xl bg-white border border-[#E7E0D3] shadow-sm space-y-3">
+                <div className="w-10 h-10 rounded-xl bg-[#B89B5E]/10 text-[#B89B5E] flex items-center justify-center">
                   <Phone className="w-5 h-5" />
                 </div>
-                <h3 className="font-serif font-bold text-base text-[#2D241E]">
+                <h3 className="font-serif font-bold text-base text-[#1C1917]">
                   Artisan Listing Call Helpline
                 </h3>
-                <p className="text-xs text-[#5A3924]">
+                <p className="text-xs text-[#6B6258] leading-relaxed">
                   Are you an Indian craftsperson or family guild? Schedule a free listing call and our operators will transcribe, photograph, and publish your catalog over the phone.
                 </p>
                 <button
                   onClick={() => setIsCallbackModalOpen(true)}
-                  className="mt-2 px-5 py-2.5 rounded-xl bg-[#C85A32] hover:bg-[#B04924] text-white font-bold text-xs cursor-pointer shadow-xs"
+                  className="mt-2 px-5 py-2.5 rounded-xl bg-[#B89B5E] hover:bg-[#9F8249] text-white font-bold text-xs cursor-pointer shadow-xs"
                 >
                   Schedule Listing Call →
                 </button>
               </div>
 
-              <div className="p-6 rounded-3xl bg-white border border-[#DFD5C4] shadow-sm space-y-3">
-                <div className="w-10 h-10 rounded-xl bg-[#2E4B3D]/10 text-[#2E4B3D] flex items-center justify-center">
+              <div className="p-6 rounded-3xl bg-white border border-[#E7E0D3] shadow-sm space-y-3">
+                <div className="w-10 h-10 rounded-xl bg-[#6B6258]/10 text-[#6B6258] flex items-center justify-center">
                   <HelpCircle className="w-5 h-5" />
                 </div>
-                <h3 className="font-serif font-bold text-base text-[#2D241E]">
+                <h3 className="font-serif font-bold text-base text-[#1C1917]">
                   Buyer & Corporate Inquiries
                 </h3>
-                <p className="text-xs text-[#5A3924]">
+                <p className="text-xs text-[#6B6258] leading-relaxed">
                   Need assistance with bulk festive orders, bespoke wedding favors, or fragile transit tracking across India?
                 </p>
                 <a
                   href="mailto:namaste@kalasetu.in"
-                  className="inline-block mt-2 px-5 py-2.5 rounded-xl bg-[#2E4B3D] hover:bg-[#253D32] text-white font-bold text-xs cursor-pointer shadow-xs"
+                  className="inline-block mt-2 px-5 py-2.5 rounded-xl bg-[#6B6258] hover:bg-[#4A4038] text-white font-bold text-xs cursor-pointer shadow-xs"
                 >
                   Email Support: namaste@kalasetu.in
                 </a>
@@ -728,18 +768,18 @@ export default function App() {
         {/* ======================================================== */}
         {activeNav === 'wishlist' && (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-6">
-            <h1 className="font-serif text-3xl font-bold text-[#2D241E]">
+            <h1 className="font-serif text-3xl font-bold text-[#1C1917]">
               My Saved Wishlist ({wishlistProducts.length})
             </h1>
 
             {wishlistProducts.length === 0 ? (
-              <div className="p-16 text-center bg-white rounded-3xl border border-[#DFD5C4] space-y-3">
-                <Heart className="w-12 h-12 text-[#8C7A6B] mx-auto" />
-                <h3 className="font-serif font-bold text-lg text-[#2D241E]">Your wishlist is empty</h3>
-                <p className="text-xs text-[#8C7A6B]">Save your favorite artisanal creations while exploring.</p>
+              <div className="p-16 text-center bg-white rounded-3xl border border-[#E7E0D3] space-y-3">
+                <Heart className="w-12 h-12 text-[#9A9089] mx-auto" />
+                <h3 className="font-serif font-bold text-lg text-[#1C1917]">Your wishlist is empty</h3>
+                <p className="text-xs text-[#9A9089]">Save your favorite artisanal creations while exploring.</p>
                 <button
                   onClick={() => setActiveNav('shop')}
-                  className="px-5 py-2.5 rounded-xl bg-[#C85A32] text-white text-xs font-semibold"
+                  className="px-5 py-2.5 rounded-xl bg-[#B89B5E] text-white text-xs font-semibold"
                 >
                   Explore Crafts
                 </button>
@@ -955,6 +995,18 @@ export default function App() {
         }}
         onRequestCallback={() => setIsCallbackModalOpen(true)}
         onOpenAiStudio={() => setIsAiStudioOpen(true)}
+        onStartTour={() => {
+          setActiveNav('home');
+          setIsTourOpen(true);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+      />
+
+      {/* Interactive Website Onboarding Walkthrough Tour */}
+      <OnboardingTour
+        isOpen={isTourOpen}
+        onClose={() => setIsTourOpen(false)}
+        onNavigateHome={() => setActiveNav('home')}
       />
     </div>
   );

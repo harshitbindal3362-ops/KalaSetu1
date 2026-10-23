@@ -63,22 +63,22 @@ export const SupportDashboard: React.FC<SupportDashboardProps> = ({
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Top Banner */}
-      <div className="p-6 rounded-3xl bg-gradient-to-r from-[#FAF7F2] to-[#F4EFE6] border border-[#DFD5C4] flex items-center justify-between">
+      <div className="p-6 rounded-3xl bg-gradient-to-r from-[#FAF7F0] to-[#E7E0D3] border border-[#E7E0D3] flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-[#2E4B3D] text-white flex items-center justify-center shadow-md">
+          <div className="w-14 h-14 rounded-2xl bg-[#6B6258] text-white flex items-center justify-center shadow-md">
             <Headphones className="w-7 h-7" />
           </div>
           <div>
-            <h2 className="font-serif text-xl sm:text-2xl font-bold text-[#2D241E]">
+            <h2 className="font-serif text-xl sm:text-2xl font-bold text-[#1C1917]">
               Artisan Onboarding & Call Support Operator
             </h2>
-            <p className="text-xs text-[#5A3924] mt-0.5">
+            <p className="text-xs text-[#6B6258] mt-0.5">
               Assisting non-digital Indian craftspersons to list and price their masterworks over phone calls.
             </p>
           </div>
         </div>
 
-        <span className="px-3 py-1 rounded-full bg-[#2E4B3D]/10 text-[#2E4B3D] font-bold text-xs">
+        <span className="px-3 py-1 rounded-full bg-[#6B6258]/10 text-[#6B6258] font-bold text-xs">
           {callbackRequests.length} Scheduled Calls
         </span>
       </div>
@@ -94,7 +94,7 @@ export const SupportDashboard: React.FC<SupportDashboardProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Column: Requests Queue */}
         <div className="lg:col-span-5 space-y-4">
-          <h3 className="font-serif font-bold text-base text-[#2D241E]">
+          <h3 className="font-serif font-bold text-base text-[#1C1917]">
             Artisan Callback Queue
           </h3>
 
@@ -105,12 +105,12 @@ export const SupportDashboard: React.FC<SupportDashboardProps> = ({
                 onClick={() => setSelectedRequest(req)}
                 className={`p-4 rounded-2xl border transition-all cursor-pointer ${
                   selectedRequest?.id === req.id
-                    ? 'bg-white border-[#C85A32] shadow-md ring-2 ring-[#C85A32]/20'
-                    : 'bg-white border-[#DFD5C4] hover:border-[#C85A32]/60'
+                    ? 'bg-white border-[#B89B5E] shadow-md ring-2 ring-[#B89B5E]/20'
+                    : 'bg-white border-[#E7E0D3] hover:border-[#B89B5E]/60'
                 }`}
               >
-                <div className="flex items-center justify-between pb-2 border-b border-[#F4EFE6] text-xs">
-                  <span className="font-serif font-bold text-[#2D241E]">
+                <div className="flex items-center justify-between pb-2 border-b border-[#E7E0D3] text-xs">
+                  <span className="font-serif font-bold text-[#1C1917]">
                     {req.artisan_name}
                   </span>
                   <span
@@ -124,16 +124,16 @@ export const SupportDashboard: React.FC<SupportDashboardProps> = ({
                   </span>
                 </div>
 
-                <div className="mt-2 text-xs text-[#5A3924] space-y-1">
+                <div className="mt-2 text-xs text-[#6B6258] space-y-1">
                   <p className="flex items-center gap-1.5 font-medium">
-                    <Phone className="w-3.5 h-3.5 text-[#C85A32]" />
+                    <Phone className="w-3.5 h-3.5 text-[#B89B5E]" />
                     <span>{req.phone}</span>
-                    <span className="text-[#8C7A6B]">({req.preferred_language})</span>
+                    <span className="text-[#9A9089]">({req.preferred_language})</span>
                   </p>
-                  <p className="text-[11px] text-[#8C7A6B]">
+                  <p className="text-[11px] text-[#9A9089]">
                     Slot: {req.preferred_date} • {req.preferred_time}
                   </p>
-                  <p className="text-[11px] text-[#2D241E] line-clamp-1">
+                  <p className="text-[11px] text-[#1C1917] line-clamp-1">
                     Craft: {req.product_type} ({req.approximate_products} items)
                   </p>
                 </div>
@@ -145,16 +145,16 @@ export const SupportDashboard: React.FC<SupportDashboardProps> = ({
         {/* Right Column: Active Operator Session Workstation */}
         <div className="lg:col-span-7">
           {selectedRequest ? (
-            <div className="p-6 rounded-3xl bg-white border border-[#DFD5C4] shadow-sm space-y-5 text-xs">
-              <div className="flex items-center justify-between pb-4 border-b border-[#EFE9DE]">
+            <div className="p-6 rounded-3xl bg-white border border-[#E7E0D3] shadow-sm space-y-5 text-xs">
+              <div className="flex items-center justify-between pb-4 border-b border-[#E7E0D3]">
                 <div>
-                  <span className="text-[10px] font-bold text-[#8C7A6B] uppercase tracking-wider">
+                  <span className="text-[10px] font-bold text-[#9A9089] uppercase tracking-wider">
                     Selected Artisan Session
                   </span>
-                  <h3 className="font-serif font-bold text-lg text-[#2D241E]">
+                  <h3 className="font-serif font-bold text-lg text-[#1C1917]">
                     {selectedRequest.artisan_name}
                   </h3>
-                  <p className="text-xs text-[#5A3924]">
+                  <p className="text-xs text-[#6B6258]">
                     Language: <strong>{selectedRequest.preferred_language}</strong> • Craft: {selectedRequest.product_type}
                   </p>
                 </div>
@@ -162,7 +162,7 @@ export const SupportDashboard: React.FC<SupportDashboardProps> = ({
                 {!callActive ? (
                   <button
                     onClick={handleStartCall}
-                    className="px-5 py-2 rounded-xl bg-[#2E4B3D] hover:bg-[#253D32] text-white font-bold text-xs flex items-center gap-2 cursor-pointer shadow-md"
+                    className="px-5 py-2 rounded-xl bg-[#6B6258] hover:bg-[#4A4038] text-white font-bold text-xs flex items-center gap-2 cursor-pointer shadow-md"
                   >
                     <PhoneCall className="w-4 h-4 animate-pulse" />
                     <span>Initiate Call ({selectedRequest.phone})</span>
@@ -177,69 +177,69 @@ export const SupportDashboard: React.FC<SupportDashboardProps> = ({
 
               {/* Live Operator Note Pad */}
               <div>
-                <label className="block font-semibold text-[#2D241E] mb-1">
+                <label className="block font-semibold text-[#1C1917] mb-1">
                   Live Conversation Notes & Spoken Details
                 </label>
                 <textarea
                   rows={3}
                   value={callNotes}
                   onChange={(e) => setCallNotes(e.target.value)}
-                  className="w-full p-2.5 rounded-xl border border-[#DFD5C4] text-xs leading-relaxed"
+                  className="w-full p-2.5 rounded-xl border border-[#E7E0D3] text-xs leading-relaxed"
                   placeholder="Note down dimensions, craft story, motifs mentioned by artisan..."
                 />
               </div>
 
               {/* Operator Product Draft Form (Filled during call) */}
-              <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#DFD5C4] space-y-3">
-                <h4 className="font-serif font-bold text-xs text-[#2D241E] flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-[#C85A32]" />
+              <div className="p-4 rounded-2xl bg-[#FAF7F0] border border-[#E7E0D3] space-y-3">
+                <h4 className="font-serif font-bold text-xs text-[#1C1917] flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-[#B89B5E]" />
                   <span>Fill Catalog Draft on Artisan's Behalf</span>
                 </h4>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div className="col-span-2">
-                    <label className="block font-semibold text-[#2D241E] mb-1">Craft Title</label>
+                    <label className="block font-semibold text-[#1C1917] mb-1">Craft Title</label>
                     <input
                       type="text"
                       value={draftTitle}
                       onChange={(e) => setDraftTitle(e.target.value)}
-                      className="w-full p-2 rounded-lg border border-[#DFD5C4] bg-white"
+                      className="w-full p-2 rounded-lg border border-[#E7E0D3] bg-white"
                     />
                   </div>
                   <div>
-                    <label className="block font-semibold text-[#2D241E] mb-1">Retail Price (₹)</label>
+                    <label className="block font-semibold text-[#1C1917] mb-1">Retail Price (₹)</label>
                     <input
                       type="number"
                       value={draftPrice}
                       onChange={(e) => setDraftPrice(Number(e.target.value))}
-                      className="w-full p-2 rounded-lg border border-[#DFD5C4] bg-white"
+                      className="w-full p-2 rounded-lg border border-[#E7E0D3] bg-white"
                     />
                   </div>
                   <div>
-                    <label className="block font-semibold text-[#2D241E] mb-1">B2B Wholesale Price (₹)</label>
+                    <label className="block font-semibold text-[#1C1917] mb-1">B2B Wholesale Price (₹)</label>
                     <input
                       type="number"
                       value={draftB2bPrice}
                       onChange={(e) => setDraftB2bPrice(Number(e.target.value))}
-                      className="w-full p-2 rounded-lg border border-[#DFD5C4] bg-white"
+                      className="w-full p-2 rounded-lg border border-[#E7E0D3] bg-white"
                     />
                   </div>
                   <div>
-                    <label className="block font-semibold text-[#2D241E] mb-1">Production Time</label>
+                    <label className="block font-semibold text-[#1C1917] mb-1">Production Time</label>
                     <input
                       type="text"
                       value={draftDuration}
                       onChange={(e) => setDraftDuration(e.target.value)}
-                      className="w-full p-2 rounded-lg border border-[#DFD5C4] bg-white"
+                      className="w-full p-2 rounded-lg border border-[#E7E0D3] bg-white"
                     />
                   </div>
                   <div>
-                    <label className="block font-semibold text-[#2D241E] mb-1">Materials</label>
+                    <label className="block font-semibold text-[#1C1917] mb-1">Materials</label>
                     <input
                       type="text"
                       value={draftMaterial}
                       onChange={(e) => setDraftMaterial(e.target.value)}
-                      className="w-full p-2 rounded-lg border border-[#DFD5C4] bg-white"
+                      className="w-full p-2 rounded-lg border border-[#E7E0D3] bg-white"
                     />
                   </div>
                 </div>
@@ -250,7 +250,7 @@ export const SupportDashboard: React.FC<SupportDashboardProps> = ({
                 <button
                   onClick={handleFinishCallAndSubmit}
                   disabled={isSubmittingDraft}
-                  className="px-6 py-2.5 rounded-xl bg-[#2E4B3D] hover:bg-[#253D32] text-white font-bold text-xs flex items-center gap-2 cursor-pointer shadow-md disabled:opacity-50"
+                  className="px-6 py-2.5 rounded-xl bg-[#6B6258] hover:bg-[#4A4038] text-white font-bold text-xs flex items-center gap-2 cursor-pointer shadow-md disabled:opacity-50"
                 >
                   <CheckCircle2 className="w-4 h-4" />
                   <span>{isSubmittingDraft ? 'Saving Draft...' : 'Complete Call & Submit Draft'}</span>
@@ -258,10 +258,10 @@ export const SupportDashboard: React.FC<SupportDashboardProps> = ({
               </div>
             </div>
           ) : (
-            <div className="p-12 text-center bg-white rounded-3xl border border-[#DFD5C4]">
-              <Phone className="w-10 h-10 text-[#8C7A6B] mx-auto mb-2" />
-              <h4 className="font-serif font-bold text-base text-[#2D241E]">Select an artisan request</h4>
-              <p className="text-xs text-[#8C7A6B]">Click any callback request on the left to start phone session.</p>
+            <div className="p-12 text-center bg-white rounded-3xl border border-[#E7E0D3]">
+              <Phone className="w-10 h-10 text-[#9A9089] mx-auto mb-2" />
+              <h4 className="font-serif font-bold text-base text-[#1C1917]">Select an artisan request</h4>
+              <p className="text-xs text-[#9A9089]">Click any callback request on the left to start phone session.</p>
             </div>
           )}
         </div>

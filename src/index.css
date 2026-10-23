@@ -1,49 +1,219 @@
 @import "tailwindcss";
 
-@theme {
-  --font-serif: "Playfair Display", Georgia, serif;
-  --font-display: "Cinzel", "Playfair Display", Georgia, serif;
-  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+/* 
+ * KalaSetu Heritage Design System
+ * Synchronized with Stitch Project 8545997592208466376
+ */
 
-  --color-cream: #FAF7F2;
-  --color-cream-soft: #F4EFE6;
-  --color-cream-card: #FFFFFF;
-  --color-terracotta: #C85A32;
-  --color-terracotta-hover: #B04924;
-  --color-earth: #3E2415;
-  --color-earth-light: #5A3924;
-  --color-saffron: #E27D26;
-  --color-forest: #2E4B3D;
-  --color-gold: #C99738;
+@font-face {
+  font-family: 'Fontagiou Semi Bold';
+  src: local('Fontagiou Semi Bold'), local('Fontagiou-SemiBold'), local('Fontagiou'), local('Playfair Display'), serif;
+  font-weight: 600;
+  font-style: normal;
 }
 
+@font-face {
+  font-family: 'Fontagiou';
+  src: local('Fontagiou Semi Bold'), local('Fontagiou-SemiBold'), local('Fontagiou'), local('Playfair Display'), serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Merta Sans Semi Bold';
+  src: local('Merta Sans Semi Bold'), local('Merta Sans-SemiBold'), local('Merta Sans'), local('Plus Jakarta Sans'), sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Merta Sans';
+  src: local('Merta Sans Semi Bold'), local('Merta Sans-SemiBold'), local('Merta Sans'), local('Plus Jakarta Sans'), sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+@theme {
+  /* Typography Tokens */
+  --font-serif: "Fontagiou Semi Bold", "Fontagiou", "Playfair Display", Georgia, serif;
+  --font-display: "Fontagiou Semi Bold", "Fontagiou", "Playfair Display", Georgia, serif;
+  --font-headline: "Fontagiou Semi Bold", "Fontagiou", "Playfair Display", serif;
+  --font-subheading: "Merta Sans Semi Bold", "Merta Sans", "Plus Jakarta Sans", sans-serif;
+  --font-label: "Merta Sans Semi Bold", "Merta Sans", "Plus Jakarta Sans", sans-serif;
+  --font-sans: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body: "Poppins", sans-serif;
+  --font-content: "Poppins", sans-serif;
+
+  /* Color System Tokens — Luxury Minimal Palette */
+  --color-primary: #B89B5E;
+  --color-primary-hover: #9F8249;
+  --color-primary-container: #F5F0E8;
+  --color-primary-on-container: #4A3B1E;
+  --color-secondary: #B89B5E;
+  --color-secondary-light: #F5F0E8;
+  --color-tertiary: #6B6258;
+  --color-tertiary-light: #EDE8E1;
+  --color-background: #FAF7F0;
+  --color-surface: #FFFFFF;
+  --color-surface-muted: #E7E0D3;
+  --color-surface-warm: #FAF7F0;
+  --color-border-light: #E7E0D3;
+  --color-border-medium: #E7E0D3;
+  --color-text-primary: #1C1917;
+  --color-text-secondary: #6B6258;
+  --color-text-muted: #9A9089;
+  --color-dark-bg: #1C1917;
+
+  /* Legacy aliases for backwards compatibility across existing components */
+  --color-cream: #FAF7F0;
+  --color-cream-soft: #E7E0D3;
+  --color-cream-card: #FFFFFF;
+  --color-terracotta: #B89B5E;
+  --color-terracotta-hover: #9F8249;
+  --color-earth: #1C1917;
+  --color-earth-light: #6B6258;
+  --color-saffron: #B89B5E;
+  --color-forest: #6B6258;
+  --color-gold: #B89B5E;
+}
+
+* {
+  font-style: normal;
+}
+
+/* ==========================================================================
+   1. GLOBAL CONTENT & BODY: POFFINS REGULAR (400)
+   ========================================================================== */
 body {
-  font-family: var(--font-sans);
-  background-color: #FAF7F2;
-  color: #2D241E;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 400 !important;
+  background-color: #FAF7F0;
+  color: #1C1917;
   -webkit-font-smoothing: antialiased;
 }
 
+/* All content text defaults to Poppins */
+p,
+div,
+span,
+li,
+input,
+textarea,
+select,
+label,
+blockquote,
+small,
+article,
+section,
+main {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Poppins Regular (400) where required */
+p,
+.font-normal,
+[class*="font-normal"],
+.description,
+.subtitle,
+span.text-text-secondary,
+span.text-text-muted,
+div.text-sm,
+input::placeholder,
+textarea::placeholder {
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 400 !important;
+}
+
+/* ==========================================================================
+   2. CONTENT REQUIRING MEDIUM (500): BUTTONS, BADGES, NAV LINKS, TAGS, PRICES
+   ========================================================================== */
+button,
+a,
+nav a,
+.btn,
+.badge,
+.pill,
+.price,
+select,
+option,
+label,
+[class*="rounded-full"],
+[class*="badge"],
+[class*="price"],
+.font-medium,
+[class*="font-medium"],
+.font-semibold:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6),
+[class*="font-semibold"]:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 500 !important;
+}
+
+/* ==========================================================================
+   3. ALL SUBHEADINGS: MERTA SANS SEMI BOLD (600)
+   ========================================================================== */
+h5,
+h6,
+.font-subheading,
+.font-label,
+[class*="font-subheading"],
+[class*="font-label"],
+[class*="tracking-widest"],
+[class*="tracking-wider"],
+[class*="uppercase text-xs"],
+.kicker,
+aside h2,
+aside h3,
+nav[aria-label="Breadcrumb"],
+nav[aria-label="Breadcrumb"] * {
+  font-family: 'Merta Sans Semi Bold', 'Merta Sans', 'Plus Jakarta Sans', sans-serif !important;
+  font-weight: 600 !important;
+  font-style: normal !important;
+}
+
+/* ==========================================================================
+   4. ALL HEADINGS: FONTAGIOU SEMI BOLD (600)
+   ========================================================================== */
+h1,
+h2,
+h3,
+h4,
+.font-display,
+[class*="font-display"],
+[class*="font-headline"],
+.font-serif,
+section h1,
+section h2,
+section h3,
+section h4,
+article h3,
+article h4,
+.card-title,
+.artisan-name {
+  font-family: 'Fontagiou Semi Bold', 'Fontagiou', 'Playfair Display', Georgia, serif !important;
+  font-weight: 600 !important;
+  font-style: normal !important;
+}
+
 /* Subtle Indian Jaali / Motif pattern accent */
-.bg-craft-pattern {
-  background-color: #FAF7F2;
-  background-image: radial-gradient(#C85A3212 0.75px, transparent 0.75px), radial-gradient(#3E241508 0.75px, #FAF7F2 0.75px);
+.bg-craft-pattern, .bg-jali {
+  background-color: #FAF7F0;
+  background-image: radial-gradient(#B89B5E15 0.75px, transparent 0.75px), radial-gradient(#1C191708 0.75px, #FAF7F0 0.75px);
   background-size: 24px 24px;
   background-position: 0 0, 12px 12px;
 }
 
-/* Custom scrollbar for gallery and preview */
+/* Custom scrollbar for gallery and preview matching Stitch */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #F4EFE6;
+  background: #FAF7F0;
 }
 ::-webkit-scrollbar-thumb {
-  background: #D4C9BA;
+  background: #E7E0D3;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #B5A593;
+  background: #9F8249;
 }

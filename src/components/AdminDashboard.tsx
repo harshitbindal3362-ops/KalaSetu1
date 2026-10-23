@@ -120,9 +120,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Top Banner */}
-      <div className="p-6 rounded-3xl bg-gradient-to-r from-[#2D241E] via-[#3E2415] to-[#2D241E] text-white border border-[#5A3924] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="p-6 rounded-3xl bg-gradient-to-r from-[#1C1917] via-[#4A3B1E] to-[#1C1917] text-white border border-[#6B6258] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-[#C85A32] text-white">
+          <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-[#B89B5E] text-white">
             KALASETU ADMIN CONSOLE
           </span>
           <h2 className="font-serif text-2xl font-bold mt-1">Platform Control Center</h2>
@@ -139,23 +139,23 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       </div>
 
       {/* Live Supabase Database Connection Card */}
-      <div className="p-4 rounded-2xl bg-white border border-[#3ECF8E]/40 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div className="p-4 rounded-2xl bg-white border border-[#B89B5E]/40 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-[#3ECF8E]/20 text-[#1B7F53] flex items-center justify-center shrink-0">
+          <div className="w-10 h-10 rounded-xl bg-[#B89B5E]/20 text-[#6B6258] flex items-center justify-center shrink-0">
             <Database className="w-5 h-5" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold text-[#2D241E]">
+              <span className="text-xs font-bold text-[#1C1917]">
                 Supabase Cloud Database Connected
               </span>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#3ECF8E]/20 text-[#1B7F53] border border-[#3ECF8E]/30 flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#3ECF8E] animate-pulse" />
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#B89B5E]/20 text-[#6B6258] border border-[#B89B5E]/30 flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#B89B5E] animate-pulse" />
                 ONLINE
               </span>
             </div>
-            <p className="text-xs text-[#8C7A6B] mt-0.5">
-              Project: <strong className="text-[#2D241E]">{SUPABASE_CONFIG.projectName}</strong> • ID: <code className="font-mono text-[#C85A32]">{SUPABASE_CONFIG.projectId}</code> • URL: <code className="font-mono text-[#5A3924]">{SUPABASE_CONFIG.url}</code>
+            <p className="text-xs text-[#9A9089] mt-0.5">
+              Project: <strong className="text-[#1C1917]">{SUPABASE_CONFIG.projectName}</strong> • ID: <code className="font-mono text-[#B89B5E]">{SUPABASE_CONFIG.projectId}</code> • URL: <code className="font-mono text-[#6B6258]">{SUPABASE_CONFIG.url}</code>
             </p>
           </div>
         </div>
@@ -178,47 +178,47 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
       {/* Metrics Row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
-        <div className="p-4 rounded-2xl bg-white border border-[#DFD5C4] shadow-2xs">
-          <span className="text-[#8C7A6B] block">Total Master Artisans</span>
-          <span className="font-serif text-2xl font-bold text-[#2D241E] mt-1 block">
+        <div className="p-4 rounded-2xl bg-white border border-[#E7E0D3] shadow-2xs">
+          <span className="text-[#9A9089] block">Total Master Artisans</span>
+          <span className="font-serif text-2xl font-bold text-[#1C1917] mt-1 block">
             {artisans.length}
           </span>
-          <span className="text-[10px] text-[#2E4B3D] font-medium">100% Identity Verified</span>
+          <span className="text-[10px] text-[#6B6258] font-medium">100% Identity Verified</span>
         </div>
 
-        <div className="p-4 rounded-2xl bg-white border border-[#DFD5C4] shadow-2xs">
-          <span className="text-[#8C7A6B] block">Live Marketplace Crafts</span>
-          <span className="font-serif text-2xl font-bold text-[#C85A32] mt-1 block">
+        <div className="p-4 rounded-2xl bg-white border border-[#E7E0D3] shadow-2xs">
+          <span className="text-[#9A9089] block">Live Marketplace Crafts</span>
+          <span className="font-serif text-2xl font-bold text-[#B89B5E] mt-1 block">
             {products.length}
           </span>
-          <span className="text-[10px] text-[#8C7A6B]">Across 8 Craft Categories</span>
+          <span className="text-[10px] text-[#9A9089]">Across 8 Craft Categories</span>
         </div>
 
-        <div className="p-4 rounded-2xl bg-white border border-[#DFD5C4] shadow-2xs">
-          <span className="text-[#8C7A6B] block">B2B Bulk Inquiries</span>
-          <span className="font-serif text-2xl font-bold text-[#2E4B3D] mt-1 block">
+        <div className="p-4 rounded-2xl bg-white border border-[#E7E0D3] shadow-2xs">
+          <span className="text-[#9A9089] block">B2B Bulk Inquiries</span>
+          <span className="font-serif text-2xl font-bold text-[#6B6258] mt-1 block">
             {inquiries.length}
           </span>
-          <span className="text-[10px] text-[#2E4B3D]">Wholesale negotiation active</span>
+          <span className="text-[10px] text-[#6B6258]">Wholesale negotiation active</span>
         </div>
 
-        <div className="p-4 rounded-2xl bg-white border border-[#DFD5C4] shadow-2xs">
-          <span className="text-[#8C7A6B] block">Total Platform GMV</span>
-          <span className="font-serif text-2xl font-bold text-[#3E2415] mt-1 block">
+        <div className="p-4 rounded-2xl bg-white border border-[#E7E0D3] shadow-2xs">
+          <span className="text-[#9A9089] block">Total Platform GMV</span>
+          <span className="font-serif text-2xl font-bold text-[#4A3B1E] mt-1 block">
             ₹{totalRevenue.toLocaleString('en-IN')}
           </span>
-          <span className="text-[10px] text-[#2E4B3D] font-semibold">Zero Commission Taken</span>
+          <span className="text-[10px] text-[#6B6258] font-semibold">Zero Commission Taken</span>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-[#EFE9DE] gap-6 text-xs font-bold">
+      <div className="flex border-b border-[#E7E0D3] gap-6 text-xs font-bold">
         <button
           onClick={() => setActiveTab('approvals')}
           className={`pb-3 cursor-pointer ${
             activeTab === 'approvals'
-              ? 'border-b-2 border-[#C85A32] text-[#C85A32]'
-              : 'text-[#8C7A6B] hover:text-[#2D241E]'
+              ? 'border-b-2 border-[#B89B5E] text-[#B89B5E]'
+              : 'text-[#9A9089] hover:text-[#1C1917]'
           }`}
         >
           Product Catalog Approvals ({pendingDrafts.length})
@@ -227,8 +227,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           onClick={() => setActiveTab('artisans')}
           className={`pb-3 cursor-pointer ${
             activeTab === 'artisans'
-              ? 'border-b-2 border-[#C85A32] text-[#C85A32]'
-              : 'text-[#8C7A6B] hover:text-[#2D241E]'
+              ? 'border-b-2 border-[#B89B5E] text-[#B89B5E]'
+              : 'text-[#9A9089] hover:text-[#1C1917]'
           }`}
         >
           Master Artisans Directory ({artisans.length})
@@ -237,8 +237,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
           onClick={() => setActiveTab('festivals')}
           className={`pb-3 cursor-pointer ${
             activeTab === 'festivals'
-              ? 'border-b-2 border-[#C85A32] text-[#C85A32]'
-              : 'text-[#8C7A6B] hover:text-[#2D241E]'
+              ? 'border-b-2 border-[#B89B5E] text-[#B89B5E]'
+              : 'text-[#9A9089] hover:text-[#1C1917]'
           }`}
         >
           Festive & Demand Engine
@@ -249,45 +249,45 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
       {activeTab === 'approvals' && (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="font-serif font-bold text-base text-[#2D241E]">
+            <h3 className="font-serif font-bold text-base text-[#1C1917]">
               AI Voice & Call Drafts Requiring Review
             </h3>
-            <span className="text-xs text-[#8C7A6B]">
+            <span className="text-xs text-[#9A9089]">
               Curate craft standards before products go live to buyers
             </span>
           </div>
 
           {pendingDrafts.length === 0 ? (
-            <div className="p-12 text-center bg-white rounded-2xl border border-[#DFD5C4]">
+            <div className="p-12 text-center bg-white rounded-2xl border border-[#E7E0D3]">
               <CheckCircle className="w-10 h-10 text-emerald-600 mx-auto mb-2" />
-              <h4 className="font-serif font-bold text-base text-[#2D241E]">
+              <h4 className="font-serif font-bold text-base text-[#1C1917]">
                 All product submissions approved!
               </h4>
-              <p className="text-xs text-[#8C7A6B]">No pending drafts in the approval queue.</p>
+              <p className="text-xs text-[#9A9089]">No pending drafts in the approval queue.</p>
             </div>
           ) : (
             pendingDrafts.map((draft) => (
               <div
                 key={draft.id}
-                className="p-5 rounded-2xl bg-white border border-[#DFD5C4] hover:shadow-md transition-shadow flex flex-col md:flex-row md:items-center justify-between gap-4 text-xs"
+                className="p-5 rounded-2xl bg-white border border-[#E7E0D3] hover:shadow-md transition-shadow flex flex-col md:flex-row md:items-center justify-between gap-4 text-xs"
               >
                 <div className="space-y-1.5 flex-1">
                   <div className="flex items-center gap-2">
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#C85A32]/10 text-[#C85A32]">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#B89B5E]/10 text-[#B89B5E]">
                       Source: {draft.source_type.toUpperCase()}
                     </span>
-                    <span className="font-serif font-bold text-sm text-[#2D241E]">
+                    <span className="font-serif font-bold text-sm text-[#1C1917]">
                       {draft.ai_title}
                     </span>
                   </div>
 
-                  <p className="text-[#5A3924]">
+                  <p className="text-[#6B6258]">
                     Artisan: <strong>{draft.artisan_name}</strong> • Discipline: {draft.ai_craft_type}
                   </p>
-                  <p className="text-[#8C7A6B]">
+                  <p className="text-[#9A9089]">
                     Materials: {draft.ai_material} • Craft Duration: {draft.ai_production_time}
                   </p>
-                  <p className="font-semibold text-[#2E4B3D]">
+                  <p className="font-semibold text-[#6B6258]">
                     Retail: ₹{draft.suggested_retail_price} | B2B Wholesale: ₹{draft.suggested_b2b_price}
                   </p>
                 </div>
@@ -301,7 +301,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   </button>
                   <button
                     onClick={() => handleApproveDraft(draft)}
-                    className="px-5 py-2 rounded-xl bg-[#2E4B3D] hover:bg-[#253D32] text-white font-bold flex items-center gap-1.5 cursor-pointer shadow-sm"
+                    className="px-5 py-2 rounded-xl bg-[#6B6258] hover:bg-[#4A4038] text-white font-bold flex items-center gap-1.5 cursor-pointer shadow-sm"
                   >
                     <Check className="w-4 h-4" />
                     <span>Approve & Publish Live</span>
@@ -320,26 +320,26 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             {artisans.map((art) => (
               <div
                 key={art.id}
-                className="p-4 rounded-2xl bg-white border border-[#DFD5C4] flex items-center justify-between gap-4 text-xs"
+                className="p-4 rounded-2xl bg-white border border-[#E7E0D3] flex items-center justify-between gap-4 text-xs"
               >
                 <div className="flex items-center gap-3">
                   <img
                     src={art.profile_image_url}
                     alt=""
-                    className="w-12 h-12 rounded-xl object-cover border border-[#DFD5C4]"
+                    className="w-12 h-12 rounded-xl object-cover border border-[#E7E0D3]"
                   />
                   <div>
-                    <h4 className="font-serif font-bold text-sm text-[#2D241E]">{art.name}</h4>
-                    <p className="text-[11px] text-[#5A3924]">
+                    <h4 className="font-serif font-bold text-sm text-[#1C1917]">{art.name}</h4>
+                    <p className="text-[11px] text-[#6B6258]">
                       {art.craft_name} • {art.region}, {art.state}
                     </p>
-                    <p className="text-[10px] text-[#8C7A6B]">
+                    <p className="text-[10px] text-[#9A9089]">
                       {art.years_of_experience} yrs experience • Rating: {art.rating} ★
                     </p>
                   </div>
                 </div>
 
-                <span className="px-2.5 py-1 rounded-full bg-[#2E4B3D]/10 text-[#2E4B3D] font-bold text-[10px] shrink-0">
+                <span className="px-2.5 py-1 rounded-full bg-[#6B6258]/10 text-[#6B6258] font-bold text-[10px] shrink-0">
                   ✓ Verified
                 </span>
               </div>
@@ -350,41 +350,41 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
       {/* Tab 3: Festive & Demand Engine */}
       {activeTab === 'festivals' && (
-        <div className="p-6 rounded-2xl bg-white border border-[#DFD5C4] space-y-4 text-xs">
-          <h3 className="font-serif font-bold text-base text-[#2D241E]">
+        <div className="p-6 rounded-2xl bg-white border border-[#E7E0D3] space-y-4 text-xs">
+          <h3 className="font-serif font-bold text-base text-[#1C1917]">
             Active Indian Festivals Engine
           </h3>
-          <p className="text-[#5A3924]">
+          <p className="text-[#6B6258]">
             When active, the platform boosts craft discoverability, activates festive tags, and informs artisan production quotas.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-            <div className="p-4 rounded-xl bg-[#E27D26]/10 border border-[#E27D26]/30">
-              <span className="px-2 py-0.5 rounded bg-[#E27D26] text-white text-[10px] font-bold">
+            <div className="p-4 rounded-xl bg-[#B89B5E]/10 border border-[#B89B5E]/30">
+              <span className="px-2 py-0.5 rounded bg-[#B89B5E] text-white text-[10px] font-bold">
                 ACTIVE CAMPAIGN
               </span>
-              <h4 className="font-serif font-bold text-sm text-[#2D241E] mt-1">Diwali & Dhanteras</h4>
-              <p className="text-[11px] text-[#5A3924] mt-0.5">
+              <h4 className="font-serif font-bold text-sm text-[#1C1917] mt-1">Diwali & Dhanteras</h4>
+              <p className="text-[11px] text-[#6B6258] mt-0.5">
                 Categories: Pottery, Brass Diyas, Pichwai & Tanjore Art, Silver Gifting.
               </p>
             </div>
 
-            <div className="p-4 rounded-xl bg-[#FAF7F2] border border-[#DFD5C4]">
-              <span className="px-2 py-0.5 rounded bg-[#8C7A6B] text-white text-[10px] font-bold">
+            <div className="p-4 rounded-xl bg-[#FAF7F0] border border-[#E7E0D3]">
+              <span className="px-2 py-0.5 rounded bg-[#9A9089] text-white text-[10px] font-bold">
                 UPCOMING
               </span>
-              <h4 className="font-serif font-bold text-sm text-[#2D241E] mt-1">Navratri & Durga Puja</h4>
-              <p className="text-[11px] text-[#5A3924] mt-0.5">
+              <h4 className="font-serif font-bold text-sm text-[#1C1917] mt-1">Navratri & Durga Puja</h4>
+              <p className="text-[11px] text-[#6B6258] mt-0.5">
                 Categories: Traditional Handlooms, Kantha, Terracotta idols.
               </p>
             </div>
 
-            <div className="p-4 rounded-xl bg-[#FAF7F2] border border-[#DFD5C4]">
-              <span className="px-2 py-0.5 rounded bg-[#8C7A6B] text-white text-[10px] font-bold">
+            <div className="p-4 rounded-xl bg-[#FAF7F0] border border-[#E7E0D3]">
+              <span className="px-2 py-0.5 rounded bg-[#9A9089] text-white text-[10px] font-bold">
                 SCHEDULED
               </span>
-              <h4 className="font-serif font-bold text-sm text-[#2D241E] mt-1">Indian Wedding Season</h4>
-              <p className="text-[11px] text-[#5A3924] mt-0.5">
+              <h4 className="font-serif font-bold text-sm text-[#1C1917] mt-1">Indian Wedding Season</h4>
+              <p className="text-[11px] text-[#6B6258] mt-0.5">
                 Categories: Bridal Handlooms, Corporate & Return Gifting.
               </p>
             </div>

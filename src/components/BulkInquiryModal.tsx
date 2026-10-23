@@ -86,18 +86,18 @@ export const BulkInquiryModal: React.FC<BulkInquiryModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-y-auto bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="relative w-full max-w-2xl my-auto bg-white rounded-3xl shadow-2xl border border-[#DFD5C4] overflow-hidden flex flex-col max-h-[92vh]">
+      <div className="relative w-full max-w-2xl my-auto bg-white rounded-3xl shadow-2xl border border-[#E7E0D3] overflow-hidden flex flex-col max-h-[92vh]">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-[#EFE9DE] bg-[#FAF7F2] flex items-center justify-between">
+        <div className="px-6 py-4 border-b border-[#E7E0D3] bg-[#FAF7F0] flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-[#2E4B3D]/10 text-[#2E4B3D] flex items-center justify-center">
+            <div className="w-9 h-9 rounded-xl bg-[#6B6258]/10 text-[#6B6258] flex items-center justify-center">
               <Building2 className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="font-serif font-bold text-base text-[#2D241E]">
+              <h3 className="font-serif font-bold text-base text-[#1C1917]">
                 B2B Bulk Purchase & Custom Quote
               </h3>
-              <p className="text-[11px] text-[#8C7A6B]">
+              <p className="text-[11px] text-[#9A9089]">
                 Direct wholesale inquiry sent directly to master artisan workshop
               </p>
             </div>
@@ -105,7 +105,7 @@ export const BulkInquiryModal: React.FC<BulkInquiryModalProps> = ({
 
           <button
             onClick={onClose}
-            className="p-2 text-[#8C7A6B] hover:text-[#2D241E] hover:bg-white rounded-full transition-all cursor-pointer"
+            className="p-2 text-[#9A9089] hover:text-[#1C1917] hover:bg-white rounded-full transition-all cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -115,7 +115,7 @@ export const BulkInquiryModal: React.FC<BulkInquiryModalProps> = ({
         <form onSubmit={handleSubmit} className="p-6 overflow-y-auto flex-1 space-y-4 text-xs">
           {/* Product Picker */}
           <div>
-            <label className="block font-semibold text-[#2D241E] mb-1">
+            <label className="block font-semibold text-[#1C1917] mb-1">
               Selected Handmade Product
             </label>
             <select
@@ -125,7 +125,7 @@ export const BulkInquiryModal: React.FC<BulkInquiryModalProps> = ({
                 const p = allProducts.find((item) => item.id === e.target.value);
                 if (p && p.b2b_price) setTargetPrice(p.b2b_price);
               }}
-              className="w-full p-2.5 rounded-xl border border-[#DFD5C4] bg-[#FAF7F2] focus:outline-none focus:border-[#C85A32] font-medium text-xs text-[#2D241E]"
+              className="w-full p-2.5 rounded-xl border border-[#E7E0D3] bg-[#FAF7F0] focus:outline-none focus:border-[#B89B5E] font-medium text-xs text-[#1C1917]"
             >
               {allProducts.map((prod) => (
                 <option key={prod.id} value={prod.id}>
@@ -138,7 +138,7 @@ export const BulkInquiryModal: React.FC<BulkInquiryModalProps> = ({
           {/* Quantity & Target Price */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block font-semibold text-[#2D241E] mb-1">
+              <label className="block font-semibold text-[#1C1917] mb-1">
                 Required Units (Quantity) *
               </label>
               <input
@@ -147,19 +147,19 @@ export const BulkInquiryModal: React.FC<BulkInquiryModalProps> = ({
                 value={quantity}
                 onChange={(e) => setQuantity(Number(e.target.value))}
                 required
-                className="w-full p-2.5 rounded-xl border border-[#DFD5C4] focus:outline-none focus:border-[#C85A32]"
+                className="w-full p-2.5 rounded-xl border border-[#E7E0D3] focus:outline-none focus:border-[#B89B5E]"
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-[#2D241E] mb-1">
+              <label className="block font-semibold text-[#1C1917] mb-1">
                 Target Unit Price (₹ INR)
               </label>
               <input
                 type="number"
                 value={targetPrice}
                 onChange={(e) => setTargetPrice(Number(e.target.value))}
-                className="w-full p-2.5 rounded-xl border border-[#DFD5C4] focus:outline-none focus:border-[#C85A32]"
+                className="w-full p-2.5 rounded-xl border border-[#E7E0D3] focus:outline-none focus:border-[#B89B5E]"
               />
             </div>
           </div>
@@ -167,7 +167,7 @@ export const BulkInquiryModal: React.FC<BulkInquiryModalProps> = ({
           {/* Buyer & Business info */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block font-semibold text-[#2D241E] mb-1">
+              <label className="block font-semibold text-[#1C1917] mb-1">
                 Buyer Contact Name *
               </label>
               <input
@@ -175,19 +175,19 @@ export const BulkInquiryModal: React.FC<BulkInquiryModalProps> = ({
                 value={buyerName}
                 onChange={(e) => setBuyerName(e.target.value)}
                 required
-                className="w-full p-2.5 rounded-xl border border-[#DFD5C4] focus:outline-none focus:border-[#C85A32]"
+                className="w-full p-2.5 rounded-xl border border-[#E7E0D3] focus:outline-none focus:border-[#B89B5E]"
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-[#2D241E] mb-1">
+              <label className="block font-semibold text-[#1C1917] mb-1">
                 Business / Organization Name
               </label>
               <input
                 type="text"
                 value={businessName}
                 onChange={(e) => setBusinessName(e.target.value)}
-                className="w-full p-2.5 rounded-xl border border-[#DFD5C4] focus:outline-none focus:border-[#C85A32]"
+                className="w-full p-2.5 rounded-xl border border-[#E7E0D3] focus:outline-none focus:border-[#B89B5E]"
               />
             </div>
           </div>
@@ -195,7 +195,7 @@ export const BulkInquiryModal: React.FC<BulkInquiryModalProps> = ({
           {/* Email & Phone */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block font-semibold text-[#2D241E] mb-1">
+              <label className="block font-semibold text-[#1C1917] mb-1">
                 Email Address *
               </label>
               <input
@@ -203,12 +203,12 @@ export const BulkInquiryModal: React.FC<BulkInquiryModalProps> = ({
                 value={buyerEmail}
                 onChange={(e) => setBuyerEmail(e.target.value)}
                 required
-                className="w-full p-2.5 rounded-xl border border-[#DFD5C4] focus:outline-none focus:border-[#C85A32]"
+                className="w-full p-2.5 rounded-xl border border-[#E7E0D3] focus:outline-none focus:border-[#B89B5E]"
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-[#2D241E] mb-1">
+              <label className="block font-semibold text-[#1C1917] mb-1">
                 Phone / WhatsApp *
               </label>
               <input
@@ -216,7 +216,7 @@ export const BulkInquiryModal: React.FC<BulkInquiryModalProps> = ({
                 value={buyerPhone}
                 onChange={(e) => setBuyerPhone(e.target.value)}
                 required
-                className="w-full p-2.5 rounded-xl border border-[#DFD5C4] focus:outline-none focus:border-[#C85A32]"
+                className="w-full p-2.5 rounded-xl border border-[#E7E0D3] focus:outline-none focus:border-[#B89B5E]"
               />
             </div>
           </div>
@@ -224,7 +224,7 @@ export const BulkInquiryModal: React.FC<BulkInquiryModalProps> = ({
           {/* Delivery & Shipping location */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block font-semibold text-[#2D241E] mb-1">
+              <label className="block font-semibold text-[#1C1917] mb-1">
                 Preferred Delivery By *
               </label>
               <input
@@ -232,12 +232,12 @@ export const BulkInquiryModal: React.FC<BulkInquiryModalProps> = ({
                 value={deliveryDate}
                 onChange={(e) => setDeliveryDate(e.target.value)}
                 required
-                className="w-full p-2.5 rounded-xl border border-[#DFD5C4] focus:outline-none focus:border-[#C85A32]"
+                className="w-full p-2.5 rounded-xl border border-[#E7E0D3] focus:outline-none focus:border-[#B89B5E]"
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-[#2D241E] mb-1">
+              <label className="block font-semibold text-[#1C1917] mb-1">
                 Shipping Destination *
               </label>
               <input
@@ -245,54 +245,54 @@ export const BulkInquiryModal: React.FC<BulkInquiryModalProps> = ({
                 value={shippingLocation}
                 onChange={(e) => setShippingLocation(e.target.value)}
                 required
-                className="w-full p-2.5 rounded-xl border border-[#DFD5C4] focus:outline-none focus:border-[#C85A32]"
+                className="w-full p-2.5 rounded-xl border border-[#E7E0D3] focus:outline-none focus:border-[#B89B5E]"
               />
             </div>
           </div>
 
           {/* Customization & Packaging Requirements */}
           <div>
-            <label className="block font-semibold text-[#2D241E] mb-1">
+            <label className="block font-semibold text-[#1C1917] mb-1">
               Customization Requirements (Motifs, Colors, Monograms)
             </label>
             <input
               type="text"
               value={customization}
               onChange={(e) => setCustomization(e.target.value)}
-              className="w-full p-2.5 rounded-xl border border-[#DFD5C4] focus:outline-none focus:border-[#C85A32]"
+              className="w-full p-2.5 rounded-xl border border-[#E7E0D3] focus:outline-none focus:border-[#B89B5E]"
               placeholder="e.g. Debossed brand logo under base or specific Pantone thread color"
             />
           </div>
 
           <div>
-            <label className="block font-semibold text-[#2D241E] mb-1">
+            <label className="block font-semibold text-[#1C1917] mb-1">
               Packaging Requirements
             </label>
             <input
               type="text"
               value={packaging}
               onChange={(e) => setPackaging(e.target.value)}
-              className="w-full p-2.5 rounded-xl border border-[#DFD5C4] focus:outline-none focus:border-[#C85A32]"
+              className="w-full p-2.5 rounded-xl border border-[#E7E0D3] focus:outline-none focus:border-[#B89B5E]"
               placeholder="e.g. Individual festive gift boxes with foam inserts and artisan story card"
             />
           </div>
 
           {/* Message */}
           <div>
-            <label className="block font-semibold text-[#2D241E] mb-1">
+            <label className="block font-semibold text-[#1C1917] mb-1">
               Additional Details / Message to Artisan
             </label>
             <textarea
               rows={3}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className="w-full p-2.5 rounded-xl border border-[#DFD5C4] focus:outline-none focus:border-[#C85A32]"
+              className="w-full p-2.5 rounded-xl border border-[#E7E0D3] focus:outline-none focus:border-[#B89B5E]"
             />
           </div>
 
           {/* Attachment (Mock upload) */}
           <div className="pt-1 flex items-center justify-between text-xs">
-            <label className="flex items-center gap-1.5 font-medium text-[#5A3924] cursor-pointer hover:text-[#C85A32]">
+            <label className="flex items-center gap-1.5 font-medium text-[#6B6258] cursor-pointer hover:text-[#B89B5E]">
               <Paperclip className="w-4 h-4" />
               <span>{attachmentName || 'Attach Design Specs or Logo (PDF/PNG)'}</span>
               <input
@@ -308,18 +308,18 @@ export const BulkInquiryModal: React.FC<BulkInquiryModalProps> = ({
           </div>
 
           {/* Actions */}
-          <div className="pt-4 border-t border-[#EFE9DE] flex items-center justify-end gap-3">
+          <div className="pt-4 border-t border-[#E7E0D3] flex items-center justify-end gap-3">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2.5 rounded-xl bg-white hover:bg-[#FAF7F2] text-[#5A3924] border border-[#DFD5C4] font-semibold cursor-pointer"
+              className="px-4 py-2.5 rounded-xl bg-white hover:bg-[#FAF7F0] text-[#6B6258] border border-[#E7E0D3] font-semibold cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-6 py-2.5 rounded-xl bg-[#2E4B3D] hover:bg-[#253D32] text-white font-semibold flex items-center gap-2 cursor-pointer shadow-md disabled:opacity-50"
+              className="px-6 py-2.5 rounded-xl bg-[#6B6258] hover:bg-[#4A4038] text-white font-semibold flex items-center gap-2 cursor-pointer shadow-md disabled:opacity-50"
             >
               <Send className="w-4 h-4" />
               <span>{isSubmitting ? 'Submitting...' : 'Send Bulk Inquiry'}</span>

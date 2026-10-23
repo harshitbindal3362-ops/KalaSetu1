@@ -5,56 +5,58 @@ interface FooterProps {
   onNavigate: (view: string) => void;
   onRequestCallback: () => void;
   onOpenAiStudio: () => void;
+  onStartTour?: () => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({
   onNavigate,
   onRequestCallback,
   onOpenAiStudio,
+  onStartTour,
 }) => {
   return (
-    <footer className="bg-[#2D241E] text-[#F7F4EE] border-t border-[#4A382A]">
+    <footer className="bg-[#1C1917] text-[#FAF7F0] border-t border-[#6B6258]">
       {/* Trust Pillars Banner */}
-      <div className="border-b border-[#4A382A]/70 bg-[#251D18] py-8">
+      <div className="border-b border-[#6B6258]/70 bg-[#1C1917] py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center sm:text-left">
             <div className="flex items-center gap-3 justify-center sm:justify-start">
-              <div className="w-10 h-10 rounded-xl bg-[#C85A32]/20 text-[#C85A32] flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-[#B89B5E]/20 text-[#B89B5E] flex items-center justify-center shrink-0">
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <div>
                 <p className="font-serif font-bold text-sm text-white">Direct from Artisans</p>
-                <p className="text-xs text-[#DFD5C4]">Zero middleman markups</p>
+                <p className="text-xs text-[#E7E0D3]">Zero middleman markups</p>
               </div>
             </div>
 
             <div className="flex items-center gap-3 justify-center sm:justify-start">
-              <div className="w-10 h-10 rounded-xl bg-[#2E4B3D]/30 text-[#4E8B6D] flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-[#6B6258]/30 text-[#9A9089] flex items-center justify-center shrink-0">
                 <Leaf className="w-5 h-5" />
               </div>
               <div>
                 <p className="font-serif font-bold text-sm text-white">100% Sustainable</p>
-                <p className="text-xs text-[#DFD5C4]">Natural dyes & quartz clay</p>
+                <p className="text-xs text-[#E7E0D3]">Natural dyes & quartz clay</p>
               </div>
             </div>
 
             <div className="flex items-center gap-3 justify-center sm:justify-start">
-              <div className="w-10 h-10 rounded-xl bg-[#E27D26]/20 text-[#E27D26] flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-[#B89B5E]/20 text-[#B89B5E] flex items-center justify-center shrink-0">
                 <Truck className="w-5 h-5" />
               </div>
               <div>
                 <p className="font-serif font-bold text-sm text-white">Insured Pan-India Transit</p>
-                <p className="text-xs text-[#DFD5C4]">5-ply shock absorbent crating</p>
+                <p className="text-xs text-[#E7E0D3]">5-ply shock absorbent crating</p>
               </div>
             </div>
 
             <div className="flex items-center gap-3 justify-center sm:justify-start">
-              <div className="w-10 h-10 rounded-xl bg-[#C85A32]/20 text-[#C85A32] flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-[#B89B5E]/20 text-[#B89B5E] flex items-center justify-center shrink-0">
                 <HeartHandshake className="w-5 h-5" />
               </div>
               <div>
                 <p className="font-serif font-bold text-sm text-white">B2B Wholesale Hub</p>
-                <p className="text-xs text-[#DFD5C4]">Direct custom quotations</p>
+                <p className="text-xs text-[#E7E0D3]">Direct custom quotations</p>
               </div>
             </div>
           </div>
@@ -67,20 +69,20 @@ export const Footer: React.FC<FooterProps> = ({
           {/* Brand Col */}
           <div className="md:col-span-4 space-y-4">
             <div className="flex items-center gap-2.5">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#C85A32] to-[#E27D26] flex items-center justify-center text-white font-serif text-2xl font-bold shadow-md">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#B89B5E] to-[#B89B5E] flex items-center justify-center text-white font-serif text-2xl font-bold shadow-md">
                 क
               </div>
               <div>
                 <span className="font-serif text-2xl font-bold text-white tracking-tight">
                   KalaSetu
                 </span>
-                <span className="text-[10px] uppercase tracking-widest font-bold ml-2 px-1.5 py-0.5 rounded bg-[#C85A32] text-white">
+                <span className="text-[10px] uppercase tracking-widest font-bold ml-2 px-1.5 py-0.5 rounded bg-[#B89B5E] text-white">
                   INDIA
                 </span>
               </div>
             </div>
 
-            <p className="text-xs text-[#DFD5C4] leading-relaxed max-w-sm">
+            <p className="text-xs text-[#E7E0D3] leading-relaxed max-w-sm">
               Empowering Indian master craftspersons through direct consumer commerce, transparent B2B wholesale quotations, and voice-assisted AI listing technology in regional mother tongues.
             </p>
 
@@ -89,7 +91,7 @@ export const Footer: React.FC<FooterProps> = ({
                 onClick={onRequestCallback}
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold cursor-pointer border border-white/20 transition-colors"
               >
-                <Phone className="w-3.5 h-3.5 text-[#E27D26]" />
+                <Phone className="w-3.5 h-3.5 text-[#B89B5E]" />
                 <span>Artisan Helpline: +91 80000 12345</span>
               </button>
             </div>
@@ -100,7 +102,7 @@ export const Footer: React.FC<FooterProps> = ({
             <h4 className="font-serif font-bold text-sm text-white uppercase tracking-wider">
               Traditional Crafts
             </h4>
-            <ul className="space-y-2 text-xs text-[#DFD5C4]">
+            <ul className="space-y-2 text-xs text-[#E7E0D3]">
               <li>
                 <button onClick={() => onNavigate('shop')} className="hover:text-white transition-colors cursor-pointer">
                   Jaipur Blue Pottery
@@ -134,9 +136,9 @@ export const Footer: React.FC<FooterProps> = ({
             <h4 className="font-serif font-bold text-sm text-white uppercase tracking-wider">
               For Artisans & B2B
             </h4>
-            <ul className="space-y-2 text-xs text-[#DFD5C4]">
+            <ul className="space-y-2 text-xs text-[#E7E0D3]">
               <li>
-                <button onClick={onOpenAiStudio} className="hover:text-white transition-colors cursor-pointer text-[#E27D26] font-semibold flex items-center gap-1">
+                <button onClick={onOpenAiStudio} className="hover:text-white transition-colors cursor-pointer text-[#B89B5E] font-semibold flex items-center gap-1">
                   <Sparkles className="w-3 h-3" />
                   <span>AI Voice Product Studio</span>
                 </button>
@@ -169,7 +171,7 @@ export const Footer: React.FC<FooterProps> = ({
             <h4 className="font-serif font-bold text-sm text-white uppercase tracking-wider">
               Platform
             </h4>
-            <ul className="space-y-2 text-xs text-[#DFD5C4]">
+            <ul className="space-y-2 text-xs text-[#E7E0D3]">
               <li>
                 <button onClick={() => onNavigate('about')} className="hover:text-white transition-colors cursor-pointer">
                   About KalaSetu
@@ -185,6 +187,14 @@ export const Footer: React.FC<FooterProps> = ({
                   Help & FAQs
                 </button>
               </li>
+              {onStartTour && (
+                <li>
+                  <button onClick={onStartTour} className="hover:text-[#B89B5E] text-[#B89B5E] font-semibold transition-colors cursor-pointer flex items-center gap-1">
+                    <Sparkles className="w-3 h-3 text-[#B89B5E]" />
+                    <span>Website Guided Tour</span>
+                  </button>
+                </li>
+              )}
               <li>
                 <button onClick={() => onNavigate('admin_dashboard')} className="hover:text-white transition-colors cursor-pointer">
                   Admin Console
@@ -195,7 +205,7 @@ export const Footer: React.FC<FooterProps> = ({
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-[#4A382A]/70 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#8C7A6B]">
+        <div className="mt-12 pt-8 border-t border-[#6B6258]/70 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#9A9089]">
           <p>© {new Date().getFullYear()} KalaSetu Indian Artisan Marketplace. Rooted in India.</p>
           <p className="flex items-center gap-1">
             <span>Crafted with reverence for India's 400+ indigenous craft guilds.</span>

@@ -47,18 +47,18 @@ export const CallbackRequestModal: React.FC<CallbackRequestModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-y-auto bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="relative w-full max-w-lg my-auto bg-white rounded-3xl shadow-2xl border border-[#DFD5C4] overflow-hidden flex flex-col">
+      <div className="relative w-full max-w-lg my-auto bg-white rounded-3xl shadow-2xl border border-[#E7E0D3] overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-[#EFE9DE] bg-[#FAF7F2] flex items-center justify-between">
+        <div className="px-6 py-4 border-b border-[#E7E0D3] bg-[#FAF7F0] flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-xl bg-[#2E4B3D]/10 text-[#2E4B3D] flex items-center justify-center">
-              <Phone className="w-5 h-5 text-[#2E4B3D]" />
+            <div className="w-10 h-10 rounded-xl bg-[#6B6258]/10 text-[#6B6258] flex items-center justify-center">
+              <Phone className="w-5 h-5 text-[#6B6258]" />
             </div>
             <div>
-              <h3 className="font-serif font-bold text-base text-[#2D241E]">
+              <h3 className="font-serif font-bold text-base text-[#1C1917]">
                 Request Free Listing Call Support
               </h3>
-              <p className="text-[11px] text-[#8C7A6B]">
+              <p className="text-[11px] text-[#9A9089]">
                 A KalaSetu onboarding operator will call you and list your crafts over the phone
               </p>
             </div>
@@ -66,7 +66,7 @@ export const CallbackRequestModal: React.FC<CallbackRequestModalProps> = ({
 
           <button
             onClick={onClose}
-            className="p-2 text-[#8C7A6B] hover:text-[#2D241E] hover:bg-white rounded-full cursor-pointer"
+            className="p-2 text-[#9A9089] hover:text-[#1C1917] hover:bg-white rounded-full cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -75,7 +75,7 @@ export const CallbackRequestModal: React.FC<CallbackRequestModalProps> = ({
         {/* Form */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4 text-xs">
           <div>
-            <label className="block font-semibold text-[#2D241E] mb-1">
+            <label className="block font-semibold text-[#1C1917] mb-1">
               Your Phone / WhatsApp Number *
             </label>
             <input
@@ -83,19 +83,19 @@ export const CallbackRequestModal: React.FC<CallbackRequestModalProps> = ({
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               required
-              className="w-full p-2.5 rounded-xl border border-[#DFD5C4] focus:outline-none focus:border-[#C85A32]"
+              className="w-full p-2.5 rounded-xl border border-[#E7E0D3] focus:outline-none focus:border-[#B89B5E]"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block font-semibold text-[#2D241E] mb-1">
+              <label className="block font-semibold text-[#1C1917] mb-1">
                 Preferred Spoken Language *
               </label>
               <select
                 value={preferredLanguage}
                 onChange={(e) => setPreferredLanguage(e.target.value)}
-                className="w-full p-2.5 rounded-xl border border-[#DFD5C4] bg-[#FAF7F2]"
+                className="w-full p-2.5 rounded-xl border border-[#E7E0D3] bg-[#FAF7F0]"
               >
                 <option value="Hindi">हिन्दी (Hindi)</option>
                 <option value="Gujarati">ગુજરાતી (Gujarati)</option>
@@ -108,7 +108,7 @@ export const CallbackRequestModal: React.FC<CallbackRequestModalProps> = ({
             </div>
 
             <div>
-              <label className="block font-semibold text-[#2D241E] mb-1">
+              <label className="block font-semibold text-[#1C1917] mb-1">
                 Number of Products
               </label>
               <input
@@ -117,32 +117,32 @@ export const CallbackRequestModal: React.FC<CallbackRequestModalProps> = ({
                 max={50}
                 value={approxProducts}
                 onChange={(e) => setApproxProducts(Number(e.target.value))}
-                className="w-full p-2.5 rounded-xl border border-[#DFD5C4]"
+                className="w-full p-2.5 rounded-xl border border-[#E7E0D3]"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block font-semibold text-[#2D241E] mb-1">
+              <label className="block font-semibold text-[#1C1917] mb-1">
                 Preferred Date
               </label>
               <input
                 type="date"
                 value={preferredDate}
                 onChange={(e) => setPreferredDate(e.target.value)}
-                className="w-full p-2.5 rounded-xl border border-[#DFD5C4]"
+                className="w-full p-2.5 rounded-xl border border-[#E7E0D3]"
               />
             </div>
 
             <div>
-              <label className="block font-semibold text-[#2D241E] mb-1">
+              <label className="block font-semibold text-[#1C1917] mb-1">
                 Preferred Time Slot
               </label>
               <select
                 value={preferredTime}
                 onChange={(e) => setPreferredTime(e.target.value)}
-                className="w-full p-2.5 rounded-xl border border-[#DFD5C4] bg-[#FAF7F2]"
+                className="w-full p-2.5 rounded-xl border border-[#E7E0D3] bg-[#FAF7F0]"
               >
                 <option value="Morning (10:00 AM - 1:00 PM)">Morning (10:00 AM - 1:00 PM)</option>
                 <option value="Afternoon (1:00 PM - 4:00 PM)">Afternoon (1:00 PM - 4:00 PM)</option>
@@ -152,42 +152,42 @@ export const CallbackRequestModal: React.FC<CallbackRequestModalProps> = ({
           </div>
 
           <div>
-            <label className="block font-semibold text-[#2D241E] mb-1">
+            <label className="block font-semibold text-[#1C1917] mb-1">
               What Crafts / Products do you want to list?
             </label>
             <input
               type="text"
               value={productType}
               onChange={(e) => setProductType(e.target.value)}
-              className="w-full p-2.5 rounded-xl border border-[#DFD5C4]"
+              className="w-full p-2.5 rounded-xl border border-[#E7E0D3]"
               placeholder="e.g. Handwoven Pashmina Shawls or Brass Statues"
             />
           </div>
 
           <div>
-            <label className="block font-semibold text-[#2D241E] mb-1">
+            <label className="block font-semibold text-[#1C1917] mb-1">
               Optional Note for the Operator
             </label>
             <textarea
               rows={2}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className="w-full p-2.5 rounded-xl border border-[#DFD5C4]"
+              className="w-full p-2.5 rounded-xl border border-[#E7E0D3]"
             />
           </div>
 
-          <div className="pt-2 border-t border-[#EFE9DE] flex items-center justify-end gap-3">
+          <div className="pt-2 border-t border-[#E7E0D3] flex items-center justify-end gap-3">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-xl border border-[#DFD5C4] text-[#5A3924]"
+              className="px-4 py-2 rounded-xl border border-[#E7E0D3] text-[#6B6258]"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-6 py-2 rounded-xl bg-[#2E4B3D] hover:bg-[#253D32] text-white font-semibold cursor-pointer shadow-md disabled:opacity-50"
+              className="px-6 py-2 rounded-xl bg-[#6B6258] hover:bg-[#4A4038] text-white font-semibold cursor-pointer shadow-md disabled:opacity-50"
             >
               {isSubmitting ? 'Booking Call...' : 'Schedule Listing Call'}
             </button>

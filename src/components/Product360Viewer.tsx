@@ -71,26 +71,26 @@ export const Product360Viewer: React.FC<Product360ViewerProps> = ({
   const brightness = 100 - Math.abs(Math.sin((currentAngleDeg * Math.PI) / 180)) * 12;
 
   return (
-    <div className="bg-[#FAF7F2] rounded-2xl border border-[#DFD5C4] p-4 sm:p-6 select-none">
+    <div className="bg-[#FAF7F0] rounded-2xl border border-[#E7E0D3] p-4 sm:p-6 select-none">
       {/* Header / Mode Indicator */}
-      <div className="flex items-center justify-between gap-2 mb-4 pb-3 border-b border-[#EFE9DE]">
+      <div className="flex items-center justify-between gap-2 mb-4 pb-3 border-b border-[#E7E0D3]">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-[#C85A32]/10 text-[#C85A32] flex items-center justify-center">
+          <div className="w-8 h-8 rounded-lg bg-[#B89B5E]/10 text-[#B89B5E] flex items-center justify-center">
             <RotateCw className="w-4 h-4 animate-spin-slow" />
           </div>
           <div>
-            <h4 className="font-serif font-bold text-sm text-[#2D241E]">
+            <h4 className="font-serif font-bold text-sm text-[#1C1917]">
               Interactive 360° Studio View
             </h4>
-            <p className="text-[11px] text-[#8C7A6B]">
+            <p className="text-[11px] text-[#9A9089]">
               Drag left or right to orbit around the piece
             </p>
           </div>
         </div>
 
         {/* Mode Badge */}
-        <div className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#E27D26]/15 border border-[#E27D26]/30 text-[#C85A32] text-xs font-semibold">
-          <Sparkles className="w-3 h-3 text-[#E27D26]" />
+        <div className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#B89B5E]/15 border border-[#B89B5E]/30 text-[#B89B5E] text-xs font-semibold">
+          <Sparkles className="w-3 h-3 text-[#B89B5E]" />
           <span>{hasMultiAnglePhotos ? 'Mode 1: Photographic 360' : 'Mode 2: AI 360 Preview'}</span>
         </div>
       </div>
@@ -107,7 +107,7 @@ export const Product360Viewer: React.FC<Product360ViewerProps> = ({
 
       {/* Main Interactive Stage */}
       <div
-        className="relative aspect-4/3 sm:aspect-16/10 rounded-2xl bg-gradient-to-b from-[#FFFFFF] to-[#F4EFE6] border border-[#DFD5C4] flex items-center justify-center overflow-hidden cursor-grab active:cursor-grabbing shadow-inner"
+        className="relative aspect-4/3 sm:aspect-16/10 rounded-2xl bg-gradient-to-b from-[#FFFFFF] to-[#E7E0D3] border border-[#E7E0D3] flex items-center justify-center overflow-hidden cursor-grab active:cursor-grabbing shadow-inner"
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
@@ -115,8 +115,8 @@ export const Product360Viewer: React.FC<Product360ViewerProps> = ({
       >
         {/* Orbital angle rings background */}
         <div className="absolute inset-0 flex items-center justify-center opacity-20 pointer-events-none">
-          <div className="w-72 h-72 rounded-full border border-dashed border-[#3E2415]" />
-          <div className="absolute w-48 h-48 rounded-full border border-[#C85A32]" />
+          <div className="w-72 h-72 rounded-full border border-dashed border-[#4A3B1E]" />
+          <div className="absolute w-48 h-48 rounded-full border border-[#B89B5E]" />
         </div>
 
         {/* 3D Perspective Canvas Simulation */}
@@ -140,7 +140,7 @@ export const Product360Viewer: React.FC<Product360ViewerProps> = ({
 
         {/* Live Angle Indicator Floating Tag */}
         <div className="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-white text-xs font-medium flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-[#E27D26] animate-pulse" />
+          <span className="w-2 h-2 rounded-full bg-[#B89B5E] animate-pulse" />
           <span>{angles[angleIndex].label}</span>
         </div>
 
@@ -150,7 +150,7 @@ export const Product360Viewer: React.FC<Product360ViewerProps> = ({
             e.stopPropagation();
             setIsAutoRotating(!isAutoRotating);
           }}
-          className="absolute bottom-3 right-3 p-2 rounded-full bg-white/90 hover:bg-white text-[#3E2415] shadow-md border border-[#DFD5C4] transition-transform active:scale-95 cursor-pointer"
+          className="absolute bottom-3 right-3 p-2 rounded-full bg-white/90 hover:bg-white text-[#4A3B1E] shadow-md border border-[#E7E0D3] transition-transform active:scale-95 cursor-pointer"
           title={isAutoRotating ? 'Pause rotation' : 'Resume auto-rotation'}
         >
           {isAutoRotating ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
@@ -168,8 +168,8 @@ export const Product360Viewer: React.FC<Product360ViewerProps> = ({
             }}
             className={`px-2.5 py-1 text-[11px] font-semibold rounded-lg transition-all cursor-pointer ${
               angleIndex === idx
-                ? 'bg-[#C85A32] text-white shadow-xs'
-                : 'bg-white hover:bg-[#F4EFE6] text-[#5A3924] border border-[#DFD5C4]'
+                ? 'bg-[#B89B5E] text-white shadow-xs'
+                : 'bg-white hover:bg-[#E7E0D3] text-[#6B6258] border border-[#E7E0D3]'
             }`}
           >
             {ang.angle}°
